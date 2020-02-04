@@ -2,73 +2,83 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg2">
-
+    android:background="@drawable/bg">
 
 
     <LinearLayout
         android:id="@+id/input_group"
-        android:background="@drawable/button"
-        android:layout_width="344dp"
-        android:layout_height="582dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="90dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/button"
         android:gravity="center"
         android:orientation="vertical">
 
 
-
         <EditText
             android:id="@+id/userName"
-            android:hint="Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+             android:hint="Name"
             android:inputType="textPersonName"
-            android:padding="15dp" />
-
+            android:padding="15dp"
+            android:layout_margin="10dp"
+            android:textColorHint="#180A0A"
+            android:textColor="#000"
+            android:background="@drawable/edit_text_middle"
+            />
 
 
         <EditText
             android:id="@+id/email_id"
-            android:hint="Email id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:hint="Email id"
+            android:layout_margin="10dp"
+            android:textColor="#000"
+            android:background="@drawable/edit_text_middle"
+            android:textColorHint="#180A0A"
             android:inputType="textEmailAddress"
             android:padding="15dp" />
 
 
-
         <EditText
             android:id="@+id/phoneNumber"
-            android:hint="PhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:hint="PhoneNumber"
+            android:layout_margin="10dp"
+            android:textColor="#000"
+            android:background="@drawable/edit_text_middle"
+            android:textColorHint="#180A0A"
             android:inputType="textPersonName"
             android:padding="15dp" />
 
 
-
         <EditText
-            android:hint="Address"
             android:id="@+id/address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:layout_margin="10dp"
+            android:textColor="#000"
+            android:background="@drawable/edit_text_middle"
+            android:textColorHint="#180A0A"
+            android:hint="Address"
             android:inputType="textPersonName"
             android:padding="15dp" />
-        <EditText
-            android:id="@+id/genter"
+
+        <TextView
+            android:id="@+id/getder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="130dp"
             android:padding="15dp"
-            android:text="Genter" />
+            android:textColor="#000"
+            android:textColorHint="#180A0A"
+            android:text="Gender" />
+
         <RadioGroup
             android:id="@+id/gender"
             android:layout_width="wrap_content"
@@ -78,28 +88,34 @@
 
             <RadioButton
                 android:id="@+id/radio_male"
+                android:textColor="#000"
+                android:layout_marginTop="5dp"
+                android:background="#D2ECC8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="male"></RadioButton>
+
             <RadioButton
                 android:id="@+id/radio_female"
+                android:textColor="#000"
+                android:background="#D2ECC8"
+                android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="female"></RadioButton>
         </RadioGroup>
 
 
-
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Do you Have any car?"
-            android:layout_marginRight="100dp"
             android:layout_marginTop="10dp"
-            >
+            android:layout_marginRight="100dp"
+            android:textColor="#000"
+            android:text="Do you Have any car?">
 
         </TextView>
+
         <RadioGroup
             android:id="@+id/car"
             android:layout_width="wrap_content"
@@ -107,80 +123,104 @@
 
             <RadioButton
                 android:id="@+id/yes"
+                android:textColor="#000"
+                android:background="#D2ECC8"
+                android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Yes   "></RadioButton>
+
             <RadioButton
                 android:id="@+id/No"
+                android:background="#D2ECC8"
+                android:textColor="#000"
+                android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No   "></RadioButton>
         </RadioGroup>
+
         <EditText
-            android:hint="Vehicle Name"
             android:id="@+id/vehiclename"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:ems="10"
+            android:hint="Vehicle Name"
+            android:layout_margin="10dp"
+            android:textColor="#000"
+            android:background="@drawable/edit_text_middle"
+            android:textColorHint="#180A0A"
             android:inputType="textPersonName"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:visibility="gone" />
 
         <EditText
-            android:hint="Vehicle Number"
             android:id="@+id/vehiclenumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:ems="10"
+            android:hint="Vehicle Number"
+            android:layout_margin="10dp"
+            android:textColor="#000"
+            android:background="@drawable/edit_text_middle"
+            android:textColorHint="#180A0A"
             android:inputType="number"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:visibility="gone" />
+
         <EditText
-            android:hint="Number of Seat"
             android:id="@+id/seat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:ems="10"
+            android:hint="Number of Seat"
             android:inputType="number"
-            android:padding="15dp" />
+            android:layout_margin="10dp"
+            android:textColor="#000"
+            android:background="@drawable/edit_text_middle"
+            android:textColorHint="#180A0A"
+            android:padding="15dp"
+            android:visibility="gone" />
+
         <TextView
+            android:id="@+id/lbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upload your Licence"
-            android:layout_marginRight="100dp"
             android:layout_marginTop="10dp"
-            />
+            android:textColor="#000"
+            android:layout_marginRight="100dp"
+            android:text="Upload your Licence"
+            android:visibility="gone" />
+
         <Button
             android:id="@+id/licence"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chose a Photo"
-            />
+            android:text="Choose a Photo"
+            android:visibility="gone" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upload your Photo"
             android:layout_marginRight="100dp"
-            />
+            android:textColor="#000"
+            android:text="Upload your Photo" />
+
         <Button
+            android:id="@+id/choose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Photo"
-            />
+            android:text="Select Photo" />
 
 
         <Button
             android:id="@+id/register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="register"
             android:layout_marginTop="20dp"
             android:background="@drawable/button"
-            ></Button>
+            android:text="register"></Button>
     </LinearLayout>
-
-
 
 
 </androidx.core.widget.NestedScrollView>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical"    >
+<fragment
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    tools:context=".JoinRide.JoinRideActivity">
+
+
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/floatingMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        fab:menu_animationDelayPerItem="0"
+        fab:menu_backgroundColor="#ccffffff"
+        fab:menu_colorNormal="#00C29F"
+        fab:menu_colorPressed="#00C29F"
+        fab:menu_colorRipple="#00C29F"
+        fab:menu_fab_label="Cancel"
+        fab:menu_labels_ellipsize="end"
+        fab:menu_labels_singleLine="true">
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/Noti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_complaint_24dp"
+            fab:fab_label="Notifications"
+            fab:fab_size="mini" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/prof"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_account"
+            fab:fab_label="Profile"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_logout"
+            fab:fab_label="Logout"
+            fab:fab_size="mini" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</fragment>
+
+<androidx.recyclerview.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/riderrecycle"/>
+</LinearLayout>

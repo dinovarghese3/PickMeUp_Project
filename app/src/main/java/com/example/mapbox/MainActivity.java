@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ImageView button, pick;
     private MapboxMap mapboxMap;
     String latitude, longitude;
-    FloatingActionButton startnav;
+    FloatingActionButton startnav, req, profile, logout;
     SharedPreferences sp;
     SharedPreferences sp1;
 
@@ -99,8 +99,36 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.getMapAsync(this);
 
         startnav = findViewById(R.id.startnav);
-        sp1= getSharedPreferences("doc", Context.MODE_PRIVATE);
-        final SharedPreferences sp=getSharedPreferences("loc",Context.MODE_PRIVATE);
+        req = findViewById(R.id.request);
+        profile = findViewById(R.id.profile);
+        logout = findViewById(R.id.logout);
+        sp1 = getSharedPreferences("doc", Context.MODE_PRIVATE);
+        final SharedPreferences sp = getSharedPreferences("loc", Context.MODE_PRIVATE);
+        req.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RiderProfile.class));
+                finish();
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences("logindata", Context.MODE_PRIVATE);
+                SharedPreferences.Editor ed = sharedPreferences.edit();
+                ed.putString("uid", "");
+                ed.commit();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
+            }
+        });
 
         startnav.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,18 +137,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 List<Address> addresses = null;
                 try {
-                    addresses = geocoder.getFromLocation( mapboxMap.getLocationComponent().getLastKnownLocation().getLatitude(),mapboxMap.getLocationComponent().getLastKnownLocation().getLongitude(), 1);
+                    addresses = geocoder.getFromLocation(mapboxMap.getLocationComponent().getLastKnownLocation().getLatitude(), mapboxMap.getLocationComponent().getLastKnownLocation().getLongitude(), 1);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 } // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
 
-                String  address = addresses.get(0).getAddressLine(0);
-                SharedPreferences.Editor ed=sp.edit();
-                ed.putString("address",address.toString());
-                ed.putString("clat",mapboxMap.getLocationComponent().getLastKnownLocation().getLatitude()+"");
-                ed.putString("clon",mapboxMap.getLocationComponent().getLastKnownLocation().getLongitude()+"");
+                String address = addresses.get(0).getAddressLine(0);
+                SharedPreferences.Editor ed = sp.edit();
+                ed.putString("address", address.toString());
+                ed.putString("clat", mapboxMap.getLocationComponent().getLastKnownLocation().getLatitude() + "");
+                ed.putString("clon", mapboxMap.getLocationComponent().getLastKnownLocation().getLongitude() + "");
                 ed.commit();
 
                 startActivity(new Intent(getApplicationContext(), CreateRide.class));
@@ -202,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @SuppressWarnings({"MissingPermission"})
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
-        if(sp1.getString("lat", "")!=""&&sp1.getString("lon", "")!="") {
+        if (sp1.getString("lat", "") != "" && sp1.getString("lon", "") != "") {
             Point destinationPoint = Point.fromLngLat(Double.parseDouble(sp1.getString("lon", "")), Double.parseDouble(sp1.getString("lat", "")));
 
             // Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
@@ -216,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             getRoute(originPoint, destinationPoint);
         }
-            return true;
+        return true;
 
     }
 
@@ -347,5 +375,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onLowMemory();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),DecisionActivity.class));finish();
+    }
 }

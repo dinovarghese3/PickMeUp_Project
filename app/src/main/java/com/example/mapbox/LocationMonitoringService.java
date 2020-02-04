@@ -21,6 +21,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.mapbox.model.Login_Model;
+import com.example.mapbox.webservice.Apiclient;
+import com.example.mapbox.webservice.Apiinterface;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -199,53 +202,15 @@ public class LocationMonitoringService extends Service implements
         timerTask1 = new TimerTask() {
             public void run() {
 
-                Log.i("bgloc", "in timer ++++  " + lat1 + lon1);
+                        SharedPreferences sp1 = getSharedPreferences("logindata", Context.MODE_PRIVATE);
 
-                //Log.d("bgloc",oldlat+""+oldlon);
-                if (oldlat != null && oldlon != null) {
-                    Log.d("bgloc in update", oldlat + "" + oldlon);
-                    float[] results = new float[1];
-                    Location.distanceBetween(Double.parseDouble(oldlat), Double.parseDouble(oldlon),
-                            Double.parseDouble(lat1), Double.parseDouble(lon1),
-                            results);
+                        if (sp1.getString("uid", "")!="") {
+                            driverUpdation();
 
-
-                    if (results[0] > 005.0) {
-
-                        type = "User";
-                        SharedPreferences sp = getSharedPreferences("riderlocation", Context.MODE_PRIVATE);
-                        if (sp.getString("tripstatus", "").equals("started")) {
-
-                            Log.d("bgloc in distance", oldlat + "" + oldlon);
-                       //     driverUpdation();
-
-                            oldlat = lat1;
-                            oldlon = lon1;
-
-                        }
-                        SharedPreferences sp1 = getSharedPreferences("userlocation", Context.MODE_PRIVATE);
-                        Log.d("bgloc", sp1.getString("tripstatus", ""));
-                        if (sp1.getString("tripstatus", "").equals("started")) {
-                            type = "Rider";
-                            Log.d("bgloc in distance", oldlat + "" + oldlon);
-                            //driverUpdation();
-
-                            oldlat = lat1;
-                            oldlon = lon1;
                         } else {
                             Log.d("bgloc", "id not given");
                         }
 
-
-                    } else {
-//                       Toast.makeText(LocationMonitoringService.this, "same location", Toast.LENGTH_SHORT).show();
-                        Log.d("bgloc", "same location");
-
-                    }
-                }else{
-                        oldlat = lat1;
-                        oldlon = lon1;
-                    }
 
 
             }
@@ -278,22 +243,23 @@ public class LocationMonitoringService extends Service implements
         //stoptimertask();
     }
 
-//    private void driverUpdation() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("logindata", Context.MODE_PRIVATE);
-//        Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
-//        Call<login_model> call = apiinterface.locupdate("LocUpdateCommon", sharedPreferences.getString("uid",""),sharedPreferences.getString("utype",""),lat1,lon1);
-//        call.enqueue(new Callback<login_model>() {
-//            @Override
-//            public void onResponse(Call<login_model> call, Response<login_model> response) {
-//                Toast.makeText(LocationMonitoringService.this, "Loc Updated", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<login_model> call, Throwable t) {
-//
-//            }
-//        });
-//    }
+    private void driverUpdation() {
+        SharedPreferences sp1 = getSharedPreferences("logindata", Context.MODE_PRIVATE);
+
+        Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
+        Call<Login_Model> call = apiinterface.locupdate("LocUpdateCommon", sp1.getString("uid",""),lat1,lon1);
+        call.enqueue(new Callback<Login_Model>() {
+            @Override
+            public void onResponse(Call<Login_Model> call, Response<Login_Model> response) {
+                Toast.makeText(LocationMonitoringService.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Login_Model> call, Throwable t) {
+
+            }
+        });
+    }
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

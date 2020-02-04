@@ -41,17 +41,19 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_top"
             android:hint="Email address"
+            android:textColor="#000"
             android:textColorHint="#180A0A"
             android:inputType="textPersonName"
             android:padding="15dp" />
 
         <EditText
-            android:id="@+id/email_id"
+            android:id="@+id/pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/dit_text_bottom"
             android:hint="Password"
             android:textColorHint="#180A0A"
+            android:textColor="#000"
             android:inputType="textPassword"
             android:padding="15dp" />
 
