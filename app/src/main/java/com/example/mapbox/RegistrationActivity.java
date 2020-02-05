@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -54,7 +55,7 @@ public class RegistrationActivity extends AppCompatActivity {
     String Gender, utype;
     String type[] = {"Select your Category", "Rider", "User"};
 
-
+    SharedPreferences pref;
     Button card, lisence, signup, img;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private Bitmap bitmapProfile = null;
@@ -83,7 +84,7 @@ public class RegistrationActivity extends AppCompatActivity {
         carn = findViewById(R.id.No);
 
         lbl_lic = findViewById(R.id.lbl);
-
+         pref = getSharedPreferences("token", 0);
         btn_pic = findViewById(R.id.choose);
         btn_lisence = findViewById(R.id.licence);
         btn_reg = findViewById(R.id.register);
@@ -171,7 +172,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
         Call<Login_Model> call = apiinterface.getRegisterData("register", name.getText().toString(), email.getText().toString(),
                 phone.getText().toString(), address.getText().toString(), Gender, utype,
-                vname.getText().toString(), vno.getText().toString(), seat.getText().toString(), encodedImage, encodedImage1);
+                vname.getText().toString(), vno.getText().toString(), seat.getText().toString(), encodedImage, encodedImage1,pref.getString("regId",""));
         call.enqueue(new Callback<Login_Model>() {
             @Override
             public void onResponse(Call<Login_Model> call, Response<Login_Model> response) {
@@ -323,9 +324,6 @@ public class RegistrationActivity extends AppCompatActivity {
         } else if (t1 == 2) {
             encodedImage1 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
             btn_pic.setText("uploaded");
-        } else if (t1 == 3) {
-            encodedImage2 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-            img.setText("uploaded");
         }
         //return encodedImage;
     }

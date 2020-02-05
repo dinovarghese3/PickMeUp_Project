@@ -9,6 +9,27 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     android:orientation="vertical"    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/bg"
+        android:orientation="horizontal">
+    <EditText
+        android:id="@+id/destsrch"
+        android:layout_width="300dp"
+        android:hint="Enter your destination"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColorHint="#000"            android:background="@drawable/edit_text_middle"
+        android:layout_height="50dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="Search"
+        android:drawableLeft="@drawable/ic_search_black_24dp"
+        android:id="@+id/srch"/>
+    </LinearLayout>
 <fragment
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"

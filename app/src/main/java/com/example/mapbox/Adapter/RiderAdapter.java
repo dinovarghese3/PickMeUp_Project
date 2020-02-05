@@ -46,6 +46,7 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.MyviewHolder
     List<NearestModel> ride;
     AlertDialog.Builder builder;
     SharedPreferences sharedPreferences;
+
     public RiderAdapter(Context context, List<NearestModel> ride) {
         this.context = context;
         this.ride = ride;
@@ -63,13 +64,14 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.MyviewHolder
     @Override
     public void onBindViewHolder(@NonNull final MyviewHolder holder, int position) {
         final NearestModel m = ride.get(position);
-        holder.name.setText(m.getName());
+        holder.name.setText("Name\t:\t"+m.getName());
+        holder.dest.setText("Destination\t:\t"+m.getDestination());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] imageBytes = baos.toByteArray();
-        imageBytes = Base64.decode(m.getLisence(), Base64.DEFAULT);
+        imageBytes = Base64.decode(String.valueOf(m.getLisence()), Base64.DEFAULT);
         Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
         holder.img.setImageBitmap(decodedImage);
-         sharedPreferences = context.getSharedPreferences("logindata", Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("logindata", Context.MODE_PRIVATE);
 
 
         holder.card.setOnClickListener(new View.OnClickListener() {
@@ -93,16 +95,17 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.MyviewHolder
                 rat = dialog.findViewById(R.id.ratingBar);
                 req = dialog.findViewById(R.id.Send);
                 route = dialog.findViewById(R.id.nav);
-
+                rat.setRating(Float.parseFloat(m.getAvgrating()));
                 name.setText("Name\t:\t" + m.getName());
                 email.setText("Email\t:\t" + m.getEmail());
                 phone.setText("Phone\t:\t" + m.getPhone());
                 address.setText("Address\t:\t" + m.getAddress());
+
                 if (m.getUtype().equals("Rider")) {
                     common.setVisibility(View.VISIBLE);
                     rat.setVisibility(View.VISIBLE);
                     common.setText("Vehicle Name\t:\t" + m.getVname() + "\n\n" +
-                            "Vehicle Number\t:\t" + m.getVno() + "\n\nSeat Capacity\t:\t" + m.getSeat() + "\nSource\t:\t" + m.getSource()
+                            "Vehicle Number\t:\t" + m.getVno() + "\n\nAvailable Seats\t:\t" + m.getSeat() + "\nSource\t:\t" + m.getSource()
                             + "\n\nDestination\t:\t" + m.getDestination());
                 }
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -114,25 +117,29 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.MyviewHolder
                 req.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       
-                        Date c = Calendar.getInstance().getTime();
-                        System.out.println("Current time => " + c);
-                        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                        if (Integer.parseInt(m.getSeat()) > 0) {
+                            Date c = Calendar.getInstance().getTime();
+                            System.out.println("Current time => " + c);
+                            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                       //     Toast.makeText(context, sharedPreferences.getString("uid", "") + "\n" + m.getRid() + "\n" + "" + df.format(c) + "\n" + "" + m.getToken(), Toast.LENGTH_SHORT).show();
 
-                        Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
-                        Call<Login_Model> call = apiinterface.sendreq("sendreq",sharedPreferences.getString("uid", ""), m.getId(),df.format(c));
-                        call.enqueue(new Callback<Login_Model>() {
-                            @Override
-                            public void onResponse(Call<Login_Model> call, Response<Login_Model> response) {
-                                Log.d("@@",response.body().getMessage());
-                                Toast.makeText(context, response.body().getMessage()+"", Toast.LENGTH_SHORT).show();
-                            }
+                            Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
+                            Call<Login_Model> call = apiinterface.sendreq("sendreq", sharedPreferences.getString("uid", ""), m.getRid(), df.format(c), m.getToken());
+                            call.enqueue(new Callback<Login_Model>() {
+                                @Override
+                                public void onResponse(Call<Login_Model> call, Response<Login_Model> response) {
+                                    Log.d("@@", response.body().getMessage());
+                                    Toast.makeText(context, response.body().getMessage() + "", Toast.LENGTH_SHORT).show();
+                                }
 
-                            @Override
-                            public void onFailure(Call<Login_Model> call, Throwable t) {
+                                @Override
+                                public void onFailure(Call<Login_Model> call, Throwable t) {
 
-                            }
-                        });
+                                }
+                            });
+                        } else {
+                            Toast.makeText(context, "you cannot send request to this rider,due to insufficient num of seats", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 route.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +167,7 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.MyviewHolder
     }
 
     public class MyviewHolder extends RecyclerView.ViewHolder {
-        TextView name;
+        TextView name,dest;
         CardView card;
         ImageView img;
 
@@ -168,6 +175,7 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.MyviewHolder
             super(itemView);
             name = itemView.findViewById(R.id.text);
             img = itemView.findViewById(R.id.image);
+            dest = itemView.findViewById(R.id.dest);
             card = itemView.findViewById(R.id.card);
         }
     }

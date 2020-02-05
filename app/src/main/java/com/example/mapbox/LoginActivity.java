@@ -1,5 +1,6 @@
 package com.example.mapbox;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -19,6 +20,10 @@ import android.widget.Toast;
 import com.example.mapbox.model.Login_Model;
 import com.example.mapbox.webservice.Apiclient;
 import com.example.mapbox.webservice.Apiinterface;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView signup;
     EditText uname, pass;
     Button btnlog;
-
+String fcm_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             startService(intent1);
 
         }
-
+        getFirebasetoken();
         SharedPreferences sharedPreferences = getSharedPreferences("logindata", Context.MODE_PRIVATE);
        if(sharedPreferences.getString("uid","")!="") {
            startActivity(new Intent(getApplicationContext(), DecisionActivity.class));
@@ -90,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                SharedPreferences sharedPreferences = getSharedPreferences("logindata", Context.MODE_PRIVATE);
                SharedPreferences.Editor ed = sharedPreferences.edit();
                ed.putString("uid", response.body().getUid());
+               ed.putString("utype", response.body().getUtype());
                ed.commit();
                if (response.body().getMessage().equals("Login success")) {
                    startActivity(new Intent(getApplicationContext(), DecisionActivity.class));
@@ -108,5 +114,29 @@ public class LoginActivity extends AppCompatActivity {
            }
        });
        progressDoalog.dismiss();
+    }
+
+    private void getFirebasetoken() {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+
+                            fcm_id=null;
+                            return;
+                        }
+                        String token = task.getResult().getToken();
+                        fcm_id=token;
+                        storeRegIdInPrefs(fcm_id);
+                        Log.d("fcmid", ""+fcm_id);
+                    }
+                });
+    }
+    public void storeRegIdInPrefs(String token) {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("token", 0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("regId", token);
+        editor.commit();
     }
 }

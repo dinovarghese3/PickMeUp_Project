@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mapbox.Adapter.RiderAdapter;
+import com.example.mapbox.ClientConformation;
 import com.example.mapbox.CreateRide;
 import com.example.mapbox.DecisionActivity;
 import com.example.mapbox.LocationMonitoringService;
@@ -55,27 +56,16 @@ import retrofit2.Response;
 
 public class JoinRideActivity extends FragmentActivity implements OnMapReadyCallback {
     String formattedDate;
-    String latitude,longitude;
+    String latitude, longitude;
     private GoogleMap mMap;
     RecyclerView rc;
     private static final String TAG = JoinRideActivity.class.getSimpleName();
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
             new LatLng(23.63936, 68.14712), new LatLng(28.20453, 97.34466));
-    Marker now;
-    private int mYear, mMonth, mDay, mHour, mMinute;
-    double slatitude1, slongitude1, dlatitude, dlongitude;
-    float km;
-    /**
-     * Code used in requesting runtime permissions.
-     */
+EditText srch;
+Button search;
     List<NearestModel> rlist;
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-    EditText from, to;
     FloatingActionButton log, prof, noti;
-
-    private boolean mAlreadyStartedService = false;
-    private TextView mMsgView;
-    private ServiceConnection serviceConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,11 +76,49 @@ public class JoinRideActivity extends FragmentActivity implements OnMapReadyCall
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         rlist = new ArrayList<>();
-        rc=findViewById(R.id.riderrecycle);
-        GridLayoutManager gg=new GridLayoutManager(this,2);
+        rc = findViewById(R.id.riderrecycle);
+        srch = findViewById(R.id.destsrch);
+        search = findViewById(R.id.srch);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // Toast.makeText(JoinRideActivity.this, "am here", Toast.LENGTH_SHORT).show();
+                Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
+                Call<List<NearestModel>> call = apiinterface.searchnear1("searchneNearRiders1",formattedDate,srch.getText().toString());
+                call.enqueue(new Callback<List<NearestModel>>() {
+                    @Override
+                    public void onResponse(Call<List<NearestModel>> call, Response<List<NearestModel>> response) {
+                        int i;
+                        rlist = response.body();
+//                Log.d("@@@@@",rlist.get(0).getClat()+"");
+                        for (i = 0; i < rlist.size(); i++) {
+                            mMap.clear();
+                            LatLng latLng = new LatLng(Double.parseDouble(rlist.get(i).getDlat().trim()), Double.parseDouble(rlist.get(i).getDlon().trim()));
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(latLng)
+                                    .title(rlist.get(i).getDestination())
+                                    .icon(BitmapDescriptorFactory
+                                            .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))).showInfoWindow();
+
+
+                        }
+                        RiderAdapter ra = new RiderAdapter(getApplicationContext(), rlist);
+                        rc.setAdapter(ra);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<NearestModel>> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+        GridLayoutManager gg = new GridLayoutManager(this, 2);
         rc.setLayoutManager(gg);
         initApp();
     }
+
     private void initApp() {
 
         Date c = Calendar.getInstance().getTime();
@@ -104,7 +132,7 @@ public class JoinRideActivity extends FragmentActivity implements OnMapReadyCall
         ed1.commit();
 //        from = findViewById(R.id.sorce);
 //        to = findViewById(R.id.dest);
-     //   search = findViewById(R.id.search);
+        //   search = findViewById(R.id.search);
         log = findViewById(R.id.logout);
         prof = findViewById(R.id.prof);
         noti = findViewById(R.id.Noti);
@@ -130,7 +158,7 @@ public class JoinRideActivity extends FragmentActivity implements OnMapReadyCall
         noti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), CreateRide.class));
+                startActivity(new Intent(getApplicationContext(), ClientConformation.class));
                 finish();
             }
         });
@@ -144,18 +172,18 @@ public class JoinRideActivity extends FragmentActivity implements OnMapReadyCall
             public void onResponse(Call<List<NearestModel>> call, Response<List<NearestModel>> response) {
                 int i;
                 rlist = response.body();
-                Log.d("@@@@@",rlist.get(0).getClat()+"");
-                for( i=0;i<rlist.size();i++){
-                    LatLng latLng = new LatLng(Double.parseDouble(rlist.get(i).getDlat().trim()), Double.parseDouble(rlist.get(i).getDlon().trim()));
+//                Log.d("@@@@@",rlist.get(0).getClat()+"");
+                for (i = 0; i < rlist.size(); i++) {
+                    LatLng latLng = new LatLng(Double.parseDouble(rlist.get(i).getClat().trim()), Double.parseDouble(rlist.get(i).getClon().trim()));
                     mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .title(rlist.get(i).getDestination())
                             .icon(BitmapDescriptorFactory
-                                    .defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))).showInfoWindow();
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))).showInfoWindow();
 
 
                 }
-                RiderAdapter ra=new RiderAdapter(getApplicationContext(),rlist);
+                RiderAdapter ra = new RiderAdapter(getApplicationContext(), rlist);
                 rc.setAdapter(ra);
 
             }
@@ -166,7 +194,6 @@ public class JoinRideActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
     }
-
 
 
     /**
@@ -195,7 +222,7 @@ public class JoinRideActivity extends FragmentActivity implements OnMapReadyCall
                         longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
                         //  Toast.makeText(userHome.this, latitude + longitude + "", Toast.LENGTH_SHORT).show();
                         if (latitude != null && longitude != null) {
-
+                           // searchNearestRiders();
                             LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
                             CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(5).build();
                             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -217,6 +244,7 @@ public class JoinRideActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(), DecisionActivity.class));finish();
+        startActivity(new Intent(getApplicationContext(), DecisionActivity.class));
+        finish();
     }
 }

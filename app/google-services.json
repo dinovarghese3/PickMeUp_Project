@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "249001966087",
+    "firebase_url": "https://pickme-2065a.firebaseio.com",
+    "project_id": "pickme-2065a",
+    "storage_bucket": "pickme-2065a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249001966087:android:46f90c8f6507a67d72c8a2",
+        "android_client_info": {
+          "package_name": "com.example.mapbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "249001966087-88u4qnukoq9p0nma5mne9jkrpes6h7sp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4zuAsn_AVokeYfoXGtz5YHnSqgBViHyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "249001966087-88u4qnukoq9p0nma5mne9jkrpes6h7sp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

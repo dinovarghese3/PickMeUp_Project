@@ -7,6 +7,18 @@ public class NearestModel {
     @SerializedName("locid")
     @Expose
     private String locid;
+    @SerializedName("avgrating")
+    @Expose
+    private String avgrating;
+
+    public String getAvgrating() {
+        return avgrating;
+    }
+
+    public void setAvgrating(String avgrating) {
+        this.avgrating = avgrating;
+    }
+
     @SerializedName("uid")
     @Expose
     private String uid;
@@ -58,9 +70,18 @@ public class NearestModel {
         this.photo = photo;
     }
 
-    @SerializedName("id")
+    @SerializedName("rid")
     @Expose
-    private String id;
+    private String rid;
+
+    public String getRid() {
+        return rid;
+    }
+
+    public void setRid(String rid) {
+        this.rid = rid;
+    }
+
     @SerializedName("source")
     @Expose
     private String source;
@@ -88,6 +109,18 @@ public class NearestModel {
     @SerializedName("rstatus")
     @Expose
     private String rstatus;
+
+    @SerializedName("token")
+    @Expose
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getLocid() {
         return locid;
@@ -203,13 +236,7 @@ public class NearestModel {
 
 
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getSource() {
         return source;

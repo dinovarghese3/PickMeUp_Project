@@ -107,7 +107,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         req.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(getApplicationContext(), RiderNotification.class));
+                finish();
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {

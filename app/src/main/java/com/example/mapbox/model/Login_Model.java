@@ -1,7 +1,15 @@
 package com.example.mapbox.model;
 
 public class Login_Model {
-    String message,uid;
+    String message,uid,utype;
+
+    public String getUtype() {
+        return utype;
+    }
+
+    public void setUtype(String utype) {
+        this.utype = utype;
+    }
 
     public Login_Model(String message, String uid) {
         this.message = message;

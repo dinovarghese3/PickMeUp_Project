@@ -27,9 +27,16 @@ android:layout_width="match_parent"
         android:textColor="#000"
         android:text="niaa"
         android:textAlignment="center"
+        android:layout_toRightOf="@+id/image"/>
+
+    <TextView
+        android:id="@+id/dest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:text="niaa"
+        android:textAlignment="center"
         android:layout_toRightOf="@+id/image"/>/>
-
-
 
 </LinearLayout>
 

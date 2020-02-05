@@ -251,7 +251,7 @@ public class LocationMonitoringService extends Service implements
         call.enqueue(new Callback<Login_Model>() {
             @Override
             public void onResponse(Call<Login_Model> call, Response<Login_Model> response) {
-                Toast.makeText(LocationMonitoringService.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(LocationMonitoringService.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

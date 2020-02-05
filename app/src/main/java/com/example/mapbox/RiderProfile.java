@@ -64,6 +64,7 @@ public class RiderProfile extends AppCompatActivity {
                email.setText("Email\t:\t"+p.getEmail());
                phone.setText("Phone\t:\t"+p.getPhone());
                address.setText("Address\t:\t"+p.getAddress());
+               rat.setRating(Float.parseFloat(p.getAvgrating()));
                if(p.getUtype().equals("Rider")) {
                    common.setVisibility(View.VISIBLE);
                    rat.setVisibility(View.VISIBLE);

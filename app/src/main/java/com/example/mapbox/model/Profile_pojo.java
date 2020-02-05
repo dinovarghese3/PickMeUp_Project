@@ -7,6 +7,18 @@ public class Profile_pojo {
     @SerializedName("uid")
     @Expose
     private String uid;
+    @SerializedName("avgrating")
+    @Expose
+    private String avgrating;
+
+    public String getAvgrating() {
+        return avgrating;
+    }
+
+    public void setAvgrating(String avgrating) {
+        this.avgrating = avgrating;
+    }
+
     @SerializedName("name")
     @Expose
     private String name;
