@@ -64,11 +64,12 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.MyviewHolder
     @Override
     public void onBindViewHolder(@NonNull final MyviewHolder holder, int position) {
         final NearestModel m = ride.get(position);
+        Log.d("@@",m.getPhoto()+"");
         holder.name.setText("Name\t:\t"+m.getName());
         holder.dest.setText("Destination\t:\t"+m.getDestination());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] imageBytes = baos.toByteArray();
-        imageBytes = Base64.decode(String.valueOf(m.getLisence()), Base64.DEFAULT);
+        imageBytes = Base64.decode(m.getPhoto(), Base64.DEFAULT);
         Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
         holder.img.setImageBitmap(decodedImage);
         sharedPreferences = context.getSharedPreferences("logindata", Context.MODE_PRIVATE);
@@ -110,7 +111,7 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.MyviewHolder
                 }
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 byte[] imageBytes = baos.toByteArray();
-                imageBytes = Base64.decode(m.getLisence(), Base64.DEFAULT);
+                imageBytes = Base64.decode(m.getPhoto(), Base64.DEFAULT);
                 Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                 image.setImageBitmap(decodedImage);
                 final String finalUid = uid;

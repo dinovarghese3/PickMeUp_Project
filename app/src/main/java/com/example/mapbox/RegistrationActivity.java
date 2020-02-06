@@ -20,6 +20,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +32,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mapbox.JoinRide.Validations;
 import com.example.mapbox.model.Login_Model;
 import com.example.mapbox.webservice.Apiclient;
 import com.example.mapbox.webservice.Apiinterface;
@@ -65,7 +68,7 @@ public class RegistrationActivity extends AppCompatActivity {
     String encodedImage = "", encodedImage1 = "", encodedImage2 = "";
     int t1 = 0;
     private static int RESULT_LOAD_IMAGE = 1;
-
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,9 +85,28 @@ public class RegistrationActivity extends AppCompatActivity {
         f = findViewById(R.id.radio_female);
         cary = findViewById(R.id.yes);
         carn = findViewById(R.id.No);
+        email .addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
 
+                if (email.getText().toString().matches(emailPattern) && s.length() > 0)
+                {
+
+                }
+                else
+                {
+                    //Toast.makeText(getApplicationContext(),"Invalid email address",Toast.LENGTH_SHORT).show();
+                    email.setError("invalid mail");
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
         lbl_lic = findViewById(R.id.lbl);
-         pref = getSharedPreferences("token", 0);
+        pref = getSharedPreferences("token", 0);
         btn_pic = findViewById(R.id.choose);
         btn_lisence = findViewById(R.id.licence);
         btn_reg = findViewById(R.id.register);
@@ -135,15 +157,61 @@ public class RegistrationActivity extends AppCompatActivity {
                 } else if (carn.isChecked()) {
                     utype = "User";
                 }
-                if(name.getText().toString().isEmpty()){
+                if(carn.isChecked()==true){
+                if (name.getText().toString().isEmpty() || (!name.getText().toString().trim().matches(Validations.text))) {
                     name.setError("Please enter your name");
                 }
-                if(email.getText().toString().isEmpty()){
-                    email.setError("Please enter your name");
+//                  if (email.getText().toString().isEmpty() || (!email.getText().toString().trim().matches(Validations.email))) {
+//                    email.setError("Please enter valid your email");
+//                }
+                  if (phone.getText().toString().isEmpty() || (!phone.getText().toString().matches(Validations.mobile))) {
+                    phone.setError("Please enter a valid 10 digit number");
+                }
+                 if (address.getText().toString().isEmpty()) {
+                    address.setError("Please enter your addresss");
+                }
+                 if (!btn_pic.getText().toString().equals("uploaded")) {
+                    Toast.makeText(RegistrationActivity.this, "please select a picture", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     startRegistration();
                 }
+            }
+               else if(cary.isChecked()==true){
+                    if (name.getText().toString().isEmpty() || (!name.getText().toString().matches(Validations.text))) {
+                        name.setError("Please enter your name");
+                    }
+//                     if (email.getText().toString().isEmpty() || (!email.getText().toString().matches(Validations.email))) {
+//                        email.setError("Please enter valid your email");
+//                    }
+                     if (phone.getText().toString().isEmpty() || (!phone.getText().toString().matches(Validations.mobile))) {
+                        phone.setError("Please enter a valid 10 digit number");
+                    }
+                     if (address.getText().toString().isEmpty()) {
+                        address.setError("Please enter your addresss");
+                    }
+
+                    if (vname.getText().toString().isEmpty()||(!vname.getText().toString().matches(Validations.text))) {
+                        vname.setError("Please enter your vehicle Name");
+                    }
+                     if (vno.getText().toString().isEmpty()||(!vno.getText().toString().matches(Validations.vehicleno))) {
+                        vno.setError("Please entervalid vehicle number");
+                    }
+                      if (seat.getText().toString().isEmpty()) {
+                        seat.setError("Please enter your seat capacity");
+                    }
+                    if (!btn_pic.getText().toString().equals("uploaded")) {
+                        Toast.makeText(RegistrationActivity.this, "please select a picture", Toast.LENGTH_SHORT).show();
+                    }
+                      else if (!btn_lisence.getText().toString().equals("uploaded")) {
+                        Toast.makeText(RegistrationActivity.this, "please select your lisence picture", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        startRegistration();
+                    }
+                }
+
+
             }
         });
         carn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -172,7 +240,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
         Call<Login_Model> call = apiinterface.getRegisterData("register", name.getText().toString(), email.getText().toString(),
                 phone.getText().toString(), address.getText().toString(), Gender, utype,
-                vname.getText().toString(), vno.getText().toString(), seat.getText().toString(), encodedImage, encodedImage1,pref.getString("regId",""));
+                vname.getText().toString(), vno.getText().toString(), seat.getText().toString(), encodedImage, encodedImage1, pref.getString("regId", ""));
         call.enqueue(new Callback<Login_Model>() {
             @Override
             public void onResponse(Call<Login_Model> call, Response<Login_Model> response) {
@@ -320,10 +388,11 @@ public class RegistrationActivity extends AppCompatActivity {
         if (t1 == 1) {
             encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
             btn_lisence.setText("uploaded");
-
+            t1 = 0;
         } else if (t1 == 2) {
             encodedImage1 = Base64.encodeToString(imageBytes, Base64.DEFAULT);
             btn_pic.setText("uploaded");
+            t1 = 0;
         }
         //return encodedImage;
     }

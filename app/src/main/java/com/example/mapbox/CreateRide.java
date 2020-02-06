@@ -3,10 +3,12 @@ package com.example.mapbox;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
@@ -44,13 +46,14 @@ public class CreateRide extends AppCompatActivity {
     TextView cloc, dloc, cdate, ctime;
     Button search;
     SharedPreferences sp1;
-    String dlat,dlon;
+    String dlat, dlon;
     SharedPreferences.Editor ed;
     private int mYear, mMonth, mDay, mHour, mMinute;
     double slatitude1, slongitude1, dlatitude, dlongitude;
     float km;
     SharedPreferences sharedPreferences;
     SharedPreferences sp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,15 +65,32 @@ public class CreateRide extends AppCompatActivity {
         search = findViewById(R.id.Route);
         sp = getSharedPreferences("loc", Context.MODE_PRIVATE);
         sp1 = getSharedPreferences("doc", Context.MODE_PRIVATE);
-         sharedPreferences = getSharedPreferences("logindata", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("logindata", Context.MODE_PRIVATE);
 
         ed = sp1.edit();
         cloc.setText(sp.getString("address", ""));
-       // Toast.makeText(this, sp.getString("address", ""), Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, sp.getString("address", ""), Toast.LENGTH_SHORT).show();
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startRide();
+                if(cloc.getText().toString().isEmpty()){
+                    cloc.setError("please enter your source");
+                }
+                if(dloc.getText().toString().isEmpty()){
+                    dloc.setError("please enter your destination");
+                }
+                if(cdate.getText().toString().isEmpty()){
+                    cdate.setError("please pick your ride date");
+                }
+                if(ctime.getText().toString().isEmpty()){
+                    ctime.setError("please pick your ride time");
+                }
+                else {
+                    dloc.setError(null);
+                    cdate.setError(null);
+                    ctime.setError(null);
+                    startRide();
+                }
             }
         });
         dloc.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +123,7 @@ public class CreateRide extends AppCompatActivity {
             }
         });
     }
+
     private void startRide() {
         final ProgressDialog progressDoalog = new ProgressDialog(CreateRide.this);
         progressDoalog.setMax(100);
@@ -111,9 +132,9 @@ public class CreateRide extends AppCompatActivity {
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDoalog.show();
         Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
-        Call<Login_Model> call = apiinterface.getRide("createride",cloc.getText().toString(),
-                dloc.getText().toString(),cdate.getText().toString(),ctime.getText().toString()
-                , sp.getString("clat",""), sp.getString("clon",""),dlat,dlon,sharedPreferences.getString("uid",""));
+        Call<Login_Model> call = apiinterface.getRide("createride", cloc.getText().toString(),
+                dloc.getText().toString(), cdate.getText().toString(), ctime.getText().toString()
+                , sp.getString("clat", ""), sp.getString("clon", ""), dlat, dlon, sharedPreferences.getString("uid", ""));
         call.enqueue(new Callback<Login_Model>() {
             @Override
             public void onResponse(Call<Login_Model> call, Response<Login_Model> response) {
@@ -143,37 +164,52 @@ public class CreateRide extends AppCompatActivity {
             // String attributions = data.getData().getPath();
 
 
-                dloc.setText(feature.text());
-               // Toast.makeText(this, feature.text(), Toast.LENGTH_LONG).show();
-                try {
-                    String location = feature.text();
-                    Geocoder gc = new Geocoder(this);
-                    List<Address> addresses = gc.getFromLocationName(location, 5); // get the found Address Objects
+            dloc.setText(feature.text());
+            // Toast.makeText(this, feature.text(), Toast.LENGTH_LONG).show();
+            try {
+                String location = feature.text();
+                Geocoder gc = new Geocoder(this);
+                List<Address> addresses = gc.getFromLocationName(location, 5); // get the found Address Objects
 
-                    List<LatLng> ll = new ArrayList<LatLng>(addresses.size()); // A list to save the coordinates if they are available
-                    for (Address a : addresses) {
-                        if (a.hasLatitude() && a.hasLongitude()) {
-                            ll.add(new LatLng(a.getLatitude(), a.getLongitude()));
-                        }
+                List<LatLng> ll = new ArrayList<LatLng>(addresses.size()); // A list to save the coordinates if they are available
+                for (Address a : addresses) {
+                    if (a.hasLatitude() && a.hasLongitude()) {
+                        ll.add(new LatLng(a.getLatitude(), a.getLongitude()));
                     }
-                    Log.d("@@@@@",ll.size()+"");
-                    if(ll.size()>0){
-dlat=ll.get(0).getLatitude()+"";
-dlon=ll.get(0).getLongitude()+"";
-                        ed.putString("lat", ll.get(0).getLatitude() + "");
-                        ed.putString("lon", ll.get(0).getLongitude() + "");
-                        ed.commit();
-                        }else {
-
-                        Toast.makeText(this, "please drag map and choose one place", Toast.LENGTH_SHORT).show();
-
-                    }
-                    // Toast.makeText(this, a.getLatitude()+a.getLongitude()+"", Toast.LENGTH_SHORT).show();
-
-                } catch (IOException e) {
-                    // handle the exception
                 }
-                //   Toast.makeText(this, attributions, Toast.LENGTH_LONG).show();
+                Log.d("@@@@@", ll.size() + "");
+                if (ll.size() > 0) {
+                    dlat = ll.get(0).getLatitude() + "";
+                    dlon = ll.get(0).getLongitude() + "";
+                    ed.putString("lat", ll.get(0).getLatitude() + "");
+                    ed.putString("lon", ll.get(0).getLongitude() + "");
+                    ed.commit();
+                } else {
+                    AlertDialog.Builder builder;
+                    builder = new AlertDialog.Builder(this);
+
+                    //Setting message manually and performing action on button click
+                    builder.setMessage("Destination latlang not found.please try once again.")
+                            .setCancelable(false)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    dialog.dismiss();
+                                }
+                            });
+
+                    //Creating dialog box
+                    AlertDialog alert = builder.create();
+                    //Setting the title manually
+                    alert.setTitle("Destination Not Found");
+                    alert.show();
+                }
+                // Toast.makeText(this, a.getLatitude()+a.getLongitude()+"", Toast.LENGTH_SHORT).show();
+
+            } catch (IOException e) {
+                // handle the exception
+            }
+            //   Toast.makeText(this, attributions, Toast.LENGTH_LONG).show();
 
         }
     }
@@ -193,14 +229,14 @@ dlon=ll.get(0).getLongitude()+"";
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         if (monthOfYear < 10 && dayOfMonth < 10) {
 
-                            cdate.setText("0"+dayOfMonth + "-0" + (monthOfYear + 1) + "-" + year);
+                            cdate.setText("0" + dayOfMonth + "-0" + (monthOfYear + 1) + "-" + year);
 
                         }
                         if (monthOfYear < 10 && dayOfMonth >= 10) {
                             cdate.setText(dayOfMonth + "-0" + (monthOfYear + 1) + "-" + year);
                         }
                         if (monthOfYear >= 10 && dayOfMonth < 10) {
-                            cdate.setText("0"+dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                            cdate.setText("0" + dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                         }
                         if (monthOfYear >= 10 && dayOfMonth >= 10) {
                             cdate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
@@ -233,8 +269,10 @@ dlon=ll.get(0).getLongitude()+"";
                 }, mHour, mMinute, false);
         timePickerDialog.show();
     }
+
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(),MainActivity.class));finish();
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        finish();
     }
 }

@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mapbox.JoinRide.Validations;
 import com.example.mapbox.model.Login_Model;
 import com.example.mapbox.webservice.Apiclient;
 import com.example.mapbox.webservice.Apiinterface;
@@ -57,14 +60,34 @@ String fcm_id;
         uname = findViewById(R.id.emailID);
         pass = findViewById(R.id.pass);
         btnlog = findViewById(R.id.signin);
+        uname .addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+
+                if (uname.getText().toString().matches(Validations.email) && s.length() > 0)
+                {
+
+                }
+                else
+                {
+                    //Toast.makeText(getApplicationContext(),"Invalid email address",Toast.LENGTH_SHORT).show();
+                    uname.setError("invalid mail");
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // other stuffs
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // other stuffs
+            }
+        });
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(uname.getText().toString().isEmpty()){
                     uname.setError("please enter a valid email");
                 }
-                if(pass.getText().toString().isEmpty()){
-                    pass.setError("please enter a valid Password");
+                if (pass.getText().toString().isEmpty() || (!pass.getText().toString().matches(Validations.mobile))) {
+                    pass.setError("Please enter a valid password");
                 }
                 else {
                     startLogin();
@@ -96,10 +119,17 @@ String fcm_id;
                SharedPreferences.Editor ed = sharedPreferences.edit();
                ed.putString("uid", response.body().getUid());
                ed.putString("utype", response.body().getUtype());
+               ed.putString("pchid", response.body().getPchid());
                ed.commit();
                if (response.body().getMessage().equals("Login success")) {
-                   startActivity(new Intent(getApplicationContext(), DecisionActivity.class));
-                   finish();
+                   if(response.body().getUtype().equals("Parent")){
+                       startActivity(new Intent(getApplicationContext(), TrackChildActivity.class));
+                       finish();
+                   }
+                   else {
+                       startActivity(new Intent(getApplicationContext(), DecisionActivity.class));
+                       finish();
+                   }
                    //
 
                }

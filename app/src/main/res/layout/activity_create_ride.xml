@@ -44,9 +44,10 @@
                 android:layout_margin="10dp"
                 android:padding="10dp"
                 android:textColor="#000"
+                android:textColorHint="#000"
                 android:id="@+id/dloc"
                 android:background="@drawable/edit_text_top"
-                android:text="Choose your destination"/>
+                android:hint="Choose your destination"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -54,8 +55,9 @@
                 android:padding="10dp"
                 android:textColor="#000"
                 android:id="@+id/tdate"
+                android:textColorHint="#000"
                 android:background="@drawable/edit_text_top"
-                android:text="Travelling date"/>
+                android:hint="Travelling date"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -63,8 +65,9 @@
                 android:padding="10dp"
                 android:id="@+id/ttime"
                 android:textColor="#000"
+                android:textColorHint="#000"
                 android:background="@drawable/edit_text_top"
-                android:text="Travelling time"/>
+                android:hint="Travelling time"/>
             <Button
                 android:id="@+id/Route"
                 style="?android:attr/borderlessButtonStyle"

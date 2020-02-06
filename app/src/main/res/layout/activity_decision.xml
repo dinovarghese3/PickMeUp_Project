@@ -12,7 +12,7 @@
         android:layout_width="320dp"
         android:layout_height="70dp"
         android:padding="15dp"
-        android:layout_marginTop="544dp"
+        android:layout_marginTop="430dp"
         android:background="@drawable/button"
         android:drawableLeft="@drawable/carowner"
         android:text="Create Ride"
@@ -30,7 +30,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/button"
         android:drawableLeft="@drawable/search"
-        android:text="Search Ride"
+        android:text="Join Ride"
         android:textColor="#FE5295"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -38,6 +38,21 @@
         app:layout_constraintHorizontal_bias="0.56"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/create_ride"
+        app:layout_constraintVertical_bias="0.0" />
+    <Button
+        android:id="@+id/parent1"
+        android:layout_width="320dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button"
+        android:text="Add Your parent"
+        android:textColor="#FE5295"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.56"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_Ride"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView

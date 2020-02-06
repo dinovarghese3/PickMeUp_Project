@@ -22,6 +22,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mapbox.JoinRide.JoinRideActivity;
+import com.example.mapbox.JoinRide.Validations;
 import com.example.mapbox.model.Login_Model;
 import com.example.mapbox.webservice.Apiclient;
 import com.example.mapbox.webservice.Apiinterface;
@@ -54,8 +57,8 @@ public class DecisionActivity extends AppCompatActivity {
     Button create, join;
     SharedPreferences sp;
     String type[] = {"Select your Category", "Rider", "User"};
-    EditText vname, vno, seat;
-    Button uplic, update;
+    EditText vname, vno, seat,pname,pmobile;
+    Button uplic, update,parent,padd;
 
     SharedPreferences pref;
     Button card, lisence, signup, img;
@@ -74,6 +77,59 @@ public class DecisionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_decision);
         create = findViewById(R.id.create_ride);
         join = findViewById(R.id.search_Ride);
+        parent = findViewById(R.id.parent1);
+        parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                final Dialog dialog = new Dialog(v.getRootView().getContext());
+                dialog.setContentView(R.layout.customparent);
+                dialog.setTitle("Title...");
+
+
+                pname = dialog.findViewById(R.id.pname);
+                pmobile = dialog.findViewById(R.id.pmobile);
+                padd = dialog.findViewById(R.id.padd);
+                pname .addTextChangedListener(new TextWatcher() {
+                    public void afterTextChanged(Editable s) {
+
+                        if (pname.getText().toString().matches(Validations.email) && s.length() > 0)
+                        {
+
+                        }
+                        else
+                        {
+                            //Toast.makeText(getApplicationContext(),"Invalid email address",Toast.LENGTH_SHORT).show();
+                            pname.setError("invalid mail");
+                        }
+                    }
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        // other stuffs
+                    }
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        // other stuffs
+                    }
+                });
+                padd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(pname.getText().toString().isEmpty()){
+                            pname.setError("please enter a valid email");
+                        }
+                        if (pmobile.getText().toString().isEmpty() || (!pmobile.getText().toString().matches(Validations.mobile))) {
+                            pmobile.setError("Please enter a valid Mobile number");
+                        }
+                        else {
+                            startAddParent();
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                dialog.show();
+
+            }
+        });
         sp = getSharedPreferences("udata", Context.MODE_PRIVATE);
 
         create.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +187,39 @@ public class DecisionActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void startAddParent() {
+        SharedPreferences sharedPreferences = getSharedPreferences("logindata", Context.MODE_PRIVATE);
+
+        uid = sharedPreferences.getString("uid", "");
+
+        final ProgressDialog progressDoalog = new ProgressDialog(DecisionActivity.this);
+        progressDoalog.setMax(100);
+        progressDoalog.setMessage("Registering..");
+        progressDoalog.setTitle("Please wait");
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDoalog.show();
+        Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
+        Call<Login_Model> call = apiinterface.addparent("Addparent", pname.getText().toString()
+                , pmobile.getText().toString(), uid);
+        call.enqueue(new Callback<Login_Model>() {
+            @Override
+            public void onResponse(Call<Login_Model> call, Response<Login_Model> response) {
+                if (response.body().getMessage().equals("success")) {
+                    Toast.makeText(DecisionActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(DecisionActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Login_Model> call, Throwable t) {
+
+            }
+        });
+        progressDoalog.dismiss();
     }
 
     @Override

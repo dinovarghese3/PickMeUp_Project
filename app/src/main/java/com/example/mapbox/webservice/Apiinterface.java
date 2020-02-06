@@ -82,4 +82,13 @@ public interface Apiinterface {
     @FormUrlEncoded
     @POST("pickme.php")
     Call<Login_Model> sendRating(@Field("key") String token,@Field("uid") String type,@Field("rid") String typ1e,@Field("rating") String type2);
+
+    @FormUrlEncoded
+    @POST("pickme.php")
+    Call<Login_Model> addparent(@Field("key") String token,@Field("pname") String type,@Field("pmobile") String typ1e,@Field("uid") String type2);
+
+    @FormUrlEncoded
+    @POST("pickme.php")
+    Call<Login_Model> mychild(@Field("key") String token, @Field("pchid") String userid);
+
 }

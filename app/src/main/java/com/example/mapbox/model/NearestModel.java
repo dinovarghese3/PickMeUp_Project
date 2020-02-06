@@ -58,7 +58,7 @@ public class NearestModel {
     @SerializedName("lisence")
     @Expose
     private String lisence;
-    @SerializedName("image")
+    @SerializedName("photo")
     @Expose
     private String photo;
 

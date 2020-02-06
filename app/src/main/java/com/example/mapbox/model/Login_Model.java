@@ -1,7 +1,31 @@
 package com.example.mapbox.model;
 
 public class Login_Model {
-    String message,uid,utype;
+    String message,uid,utype,pchid,clat,clon;
+
+    public String getPchid() {
+        return pchid;
+    }
+
+    public String getClat() {
+        return clat;
+    }
+
+    public void setClat(String clat) {
+        this.clat = clat;
+    }
+
+    public String getClon() {
+        return clon;
+    }
+
+    public void setClon(String clon) {
+        this.clon = clon;
+    }
+
+    public void setPchid(String pchid) {
+        this.pchid = pchid;
+    }
 
     public String getUtype() {
         return utype;

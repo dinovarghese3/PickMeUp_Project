@@ -82,6 +82,10 @@ Button search;
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(srch.getText().toString().isEmpty()){
+                    srch.setError("please enter your destination");
+                }
+                else{
                // Toast.makeText(JoinRideActivity.this, "am here", Toast.LENGTH_SHORT).show();
                 Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
                 Call<List<NearestModel>> call = apiinterface.searchnear1("searchneNearRiders1",formattedDate,srch.getText().toString());
@@ -99,7 +103,8 @@ Button search;
                                     .title(rlist.get(i).getDestination())
                                     .icon(BitmapDescriptorFactory
                                             .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))).showInfoWindow();
-
+                            CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
+                            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
                         }
                         RiderAdapter ra = new RiderAdapter(getApplicationContext(), rlist);
@@ -112,7 +117,7 @@ Button search;
 
                     }
                 });
-            }
+            }}
         });
         GridLayoutManager gg = new GridLayoutManager(this, 2);
         rc.setLayoutManager(gg);
@@ -174,14 +179,17 @@ Button search;
                 rlist = response.body();
 //                Log.d("@@@@@",rlist.get(0).getClat()+"");
                 for (i = 0; i < rlist.size(); i++) {
-                    LatLng latLng = new LatLng(Double.parseDouble(rlist.get(i).getClat().trim()), Double.parseDouble(rlist.get(i).getClon().trim()));
+                    LatLng latLng = new LatLng(Double.parseDouble(rlist.get(i).getDlat()
+                            .trim()), Double.parseDouble(rlist.get(i).getDlon().trim()));
                     mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .title(rlist.get(i).getDestination())
                             .icon(BitmapDescriptorFactory
                                     .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))).showInfoWindow();
 
-
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(1).build();
+                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+//
                 }
                 RiderAdapter ra = new RiderAdapter(getApplicationContext(), rlist);
                 rc.setAdapter(ra);
@@ -210,10 +218,10 @@ Button search;
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
 
+
+          googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 new BroadcastReceiver() {
                     @Override
@@ -224,8 +232,7 @@ Button search;
                         if (latitude != null && longitude != null) {
                            // searchNearestRiders();
                             LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-                            CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(5).build();
-                            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
 //                            Log.d("@@",latitude);
 //                            Log.d("@@",longitude);
 //                          //  mMap.clear();
