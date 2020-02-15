@@ -7,84 +7,104 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="#ffffff"
     android:orientation="vertical"    >
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:background="@drawable/bg"
+        android:layout_height="73dp"
+        android:background="@drawable/button"
         android:orientation="horizontal">
-    <EditText
-        android:id="@+id/destsrch"
-        android:layout_width="300dp"
-        android:hint="Enter your destination"
-        android:padding="10dp"
-        android:textAlignment="center"
-        android:textColorHint="#000"            android:background="@drawable/edit_text_middle"
-        android:layout_height="50dp"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="Search"
-        android:drawableLeft="@drawable/ic_search_black_24dp"
-        android:id="@+id/srch"/>
+
+        <EditText
+            android:id="@+id/destsrch"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button"
+            android:hint="Enter your destination"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:textColorHint="#000" />
+
+        <Button
+            android:id="@+id/srch"
+            android:layout_width="111dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+
+            android:background="@drawable/button"
+            android:text="Search" />
     </LinearLayout>
-<fragment
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="500dp"
-    tools:context=".JoinRide.JoinRideActivity">
 
-
-
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/floatingMenu"
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        fab:menu_animationDelayPerItem="0"
-        fab:menu_backgroundColor="#ccffffff"
-        fab:menu_colorNormal="#00C29F"
-        fab:menu_colorPressed="#00C29F"
-        fab:menu_colorRipple="#00C29F"
-        fab:menu_fab_label="Cancel"
-        fab:menu_labels_ellipsize="end"
-        fab:menu_labels_singleLine="true">
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/Noti"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_complaint_24dp"
-            fab:fab_label="Notifications"
-            fab:fab_size="mini" />
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/prof"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_account"
-            fab:fab_label="Profile"
-            fab:fab_size="mini" />
+        android:layout_height="476dp"
+        tools:context=".JoinRide.JoinRideActivity">
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_logout"
-            fab:fab_label="Logout"
-            fab:fab_size="mini" />
 
-    </com.github.clans.fab.FloatingActionMenu>
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/floatingMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            fab:menu_animationDelayPerItem="0"
+            fab:menu_backgroundColor="#ccffffff"
+            fab:menu_colorNormal="#00C29F"
+            fab:menu_colorPressed="#00C29F"
+            fab:menu_colorRipple="#00C29F"
+            fab:menu_fab_label="Cancel"
+            fab:menu_labels_ellipsize="end"
+            fab:menu_labels_singleLine="true">
 
-</fragment>
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/Noti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_complaint_24dp"
+                fab:fab_label="Notifications"
+                fab:fab_size="mini" />
 
-<androidx.recyclerview.widget.RecyclerView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/riderrecycle"/>
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/prof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_account"
+                fab:fab_label="Profile"
+                fab:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_logout"
+                fab:fab_label="Logout"
+                fab:fab_size="mini" />
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+    </fragment>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="222dp"
+        app:cardCornerRadius="50dp"
+        android:background="#fff"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/riderrecycle"
+            app:cardCornerRadius="50dp"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

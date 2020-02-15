@@ -51,7 +51,7 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 public class RegistrationActivity extends AppCompatActivity {
-    EditText name, email, phone, address, vname, vno, seat;
+    EditText name, email, phone, address, vname, vno, seat,cardnumber,cvv,pin;
     RadioButton m, f, cary, carn;
     TextView lbl_lic;
     Button btn_pic, btn_lisence, btn_reg;
@@ -80,6 +80,9 @@ public class RegistrationActivity extends AppCompatActivity {
         vname = findViewById(R.id.vehiclename);
         vno = findViewById(R.id.vehiclenumber);
         seat = findViewById(R.id.seat);
+        cardnumber=findViewById(R.id.cardNumber);
+        cvv=findViewById(R.id.cvv);
+        pin=findViewById(R.id.pin);
 
         m = findViewById(R.id.radio_male);
         f = findViewById(R.id.radio_female);
@@ -170,9 +173,23 @@ public class RegistrationActivity extends AppCompatActivity {
                  if (address.getText().toString().isEmpty()) {
                     address.setError("Please enter your addresss");
                 }
+                if(cardnumber.getText().toString().length()!=11)
+                {
+                    Toast.makeText(RegistrationActivity.this,"please Enter a Valid CardNumber",Toast.LENGTH_SHORT).show();
+                }
+                if(cvv.getText().toString().length()!=3)
+                {
+                    Toast.makeText(RegistrationActivity.this, "Enter valid cvv", Toast.LENGTH_SHORT).show();
+                }
+                if(pin.getText().toString().length()!=4)
+                {
+                    Toast.makeText(RegistrationActivity.this, "Please enter Pinnumber", Toast.LENGTH_SHORT).show();
+                }
                  if (!btn_pic.getText().toString().equals("uploaded")) {
                     Toast.makeText(RegistrationActivity.this, "please select a picture", Toast.LENGTH_SHORT).show();
                 }
+
+
                 else {
                     startRegistration();
                 }
@@ -199,6 +216,18 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                       if (seat.getText().toString().isEmpty()) {
                         seat.setError("Please enter your seat capacity");
+                    }
+                    if(cardnumber.getText().toString().length()!=11)
+                    {
+                        Toast.makeText(RegistrationActivity.this,"please Enter a Valid CardNumber",Toast.LENGTH_SHORT).show();
+                    }
+                    if(cvv.getText().toString().length()!=3)
+                    {
+                        Toast.makeText(RegistrationActivity.this, "Enter valid cvv", Toast.LENGTH_SHORT).show();
+                    }
+                    if(pin.getText().toString().length()!=4)
+                    {
+                        Toast.makeText(RegistrationActivity.this, "Please enter Pinnumber", Toast.LENGTH_SHORT).show();
                     }
                     if (!btn_pic.getText().toString().equals("uploaded")) {
                         Toast.makeText(RegistrationActivity.this, "please select a picture", Toast.LENGTH_SHORT).show();

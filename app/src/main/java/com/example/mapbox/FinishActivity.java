@@ -36,7 +36,7 @@ public class FinishActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
-                final Call<Login_Model> call = apiinterface.finishride("finishride",num.getText().toString(), sp.getString("uid",""),sp.getString("reqid",""));
+                final Call<Login_Model> call = apiinterface.finishride("finishride",num.getText().toString(), sp.getString("uid",""),sp.getString("reqid",""),sp.getString("rid",""));
                 call.enqueue(new Callback<Login_Model>() {
                     @Override
                     public void onResponse(Call<Login_Model> call, Response<Login_Model> response) {

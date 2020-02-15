@@ -74,7 +74,7 @@ public interface Apiinterface {
     ,@Query("uid") String uid);
 
     @GET("pickme.php")
-    Call<Login_Model> finishride(@Query("key") String token,@Query("num") String type,@Query("uid") String uid,@Query("reqid") String req);
+    Call<Login_Model> finishride(@Query("key") String token,@Query("num") String type,@Query("uid") String uid,@Query("reqid") String req,@Query("rid") String rid);
     @FormUrlEncoded
     @POST("pickme.php")
     Call<List<Request_model>> getMyride(@Field("key") String token, @Field("uid") String uid);
