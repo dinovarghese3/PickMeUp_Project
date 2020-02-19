@@ -24,6 +24,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mapbox.ClientConformation;
+import com.example.mapbox.JoinRide.Payment;
 import com.example.mapbox.R;
 import com.example.mapbox.model.Login_Model;
 import com.example.mapbox.model.Request_model;
@@ -91,15 +92,32 @@ public class MyRiderAdapter extends RecyclerView.Adapter<MyRiderAdapter.MyviewHo
                 final SharedPreferences sharedPreferences = context.getSharedPreferences("logindata", Context.MODE_PRIVATE);
                 final String uid = sharedPreferences.getString("uid", "");
                 final String rid = p.getUid();
-                Toast.makeText(context, "rid=" + rid, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, "rid=" + rid, Toast.LENGTH_SHORT).show();
                 final Dialog dialog = new Dialog(v.getRootView().getContext());
                 dialog.setContentView(R.layout.customupdate);
                 dialog.setTitle("Title...");
                 final RatingBar rat1;
-                Button rat2;
+                Button rat2,pay;
                 rat1 = dialog.findViewById(R.id.rat1);
                 rat2 = dialog.findViewById(R.id.rat2);
-
+                pay = dialog.findViewById(R.id.pay);
+                pay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SharedPreferences sp=context.getSharedPreferences("payment",Context.MODE_PRIVATE);
+                        SharedPreferences.Editor ed=sp.edit();
+                        ed.putString("uid",uid);
+                        ed.putString("rid",rid);
+                        ed.putString("cno",p.getCno());
+                        ed.putString("cvv",p.getCvv());
+                        ed.putString("pin",p.getPin());
+                        ed.putString("balance",p.getBalance());
+                        ed.commit();
+                        Intent i=new Intent(context, Payment.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(i);
+                    }
+                });
                 rat2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

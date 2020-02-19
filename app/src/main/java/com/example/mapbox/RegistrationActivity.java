@@ -51,7 +51,7 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 public class RegistrationActivity extends AppCompatActivity {
-    EditText name, email, phone, address, vname, vno, seat,cardnumber,cvv,pin;
+    EditText name, email, phone, address, vname, vno, seat, cardnumber, cvv, pin;
     RadioButton m, f, cary, carn;
     TextView lbl_lic;
     Button btn_pic, btn_lisence, btn_reg;
@@ -69,6 +69,7 @@ public class RegistrationActivity extends AppCompatActivity {
     int t1 = 0;
     private static int RESULT_LOAD_IMAGE = 1;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,30 +81,29 @@ public class RegistrationActivity extends AppCompatActivity {
         vname = findViewById(R.id.vehiclename);
         vno = findViewById(R.id.vehiclenumber);
         seat = findViewById(R.id.seat);
-        cardnumber=findViewById(R.id.cardNumber);
-        cvv=findViewById(R.id.cvv);
-        pin=findViewById(R.id.pin);
+        cardnumber = findViewById(R.id.cardNumber);
+        cvv = findViewById(R.id.cvv);
+        pin = findViewById(R.id.pin);
 
         m = findViewById(R.id.radio_male);
         f = findViewById(R.id.radio_female);
         cary = findViewById(R.id.yes);
         carn = findViewById(R.id.No);
-        email .addTextChangedListener(new TextWatcher() {
+        email.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
 
-                if (email.getText().toString().matches(emailPattern) && s.length() > 0)
-                {
+                if (email.getText().toString().matches(emailPattern) && s.length() > 0) {
 
-                }
-                else
-                {
+                } else {
                     //Toast.makeText(getApplicationContext(),"Invalid email address",Toast.LENGTH_SHORT).show();
                     email.setError("invalid mail");
                 }
             }
+
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // other stuffs
             }
+
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // other stuffs
             }
@@ -160,82 +160,71 @@ public class RegistrationActivity extends AppCompatActivity {
                 } else if (carn.isChecked()) {
                     utype = "User";
                 }
-                if(carn.isChecked()==true){
-                if (name.getText().toString().isEmpty() || (!name.getText().toString().trim().matches(Validations.text))) {
-                    name.setError("Please enter your name");
+                if (carn.isChecked() == true) {
+                    if (name.getText().toString().isEmpty() || (!name.getText().toString().trim().matches(Validations.text))) {
+                        name.setError("Please enter your name");
+                    }
+                 else if (email.getText().toString().isEmpty()) {
+                    email.setError("Please enter valid your email");
                 }
-//                  if (email.getText().toString().isEmpty() || (!email.getText().toString().trim().matches(Validations.email))) {
-//                    email.setError("Please enter valid your email");
-//                }
-                  if (phone.getText().toString().isEmpty() || (!phone.getText().toString().matches(Validations.mobile))) {
-                    phone.setError("Please enter a valid 10 digit number");
-                }
-                 if (address.getText().toString().isEmpty()) {
-                    address.setError("Please enter your addresss");
-                }
-                if(cardnumber.getText().toString().length()!=11)
-                {
-                    Toast.makeText(RegistrationActivity.this,"please Enter a Valid CardNumber",Toast.LENGTH_SHORT).show();
-                }
-                if(cvv.getText().toString().length()!=3)
-                {
-                    Toast.makeText(RegistrationActivity.this, "Enter valid cvv", Toast.LENGTH_SHORT).show();
-                }
-                if(pin.getText().toString().length()!=4)
-                {
-                    Toast.makeText(RegistrationActivity.this, "Please enter Pinnumber", Toast.LENGTH_SHORT).show();
-                }
-                 if (!btn_pic.getText().toString().equals("uploaded")) {
-                    Toast.makeText(RegistrationActivity.this, "please select a picture", Toast.LENGTH_SHORT).show();
-                }
-
-
-                else {
-                    startRegistration();
-                }
-            }
-               else if(cary.isChecked()==true){
+                    else if (phone.getText().toString().isEmpty() || (!phone.getText().toString().matches(Validations.mobile))) {
+                        phone.setError("Please enter a valid 10 digit number");
+                    }
+                    else if (address.getText().toString().isEmpty()) {
+                        address.setError("Please enter your addresss");
+                    }
+                    else if (cardnumber.getText().toString().length() != 11) {
+                        Toast.makeText(RegistrationActivity.this, "please Enter a Valid CardNumber", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (cvv.getText().toString().length() != 3) {
+                        Toast.makeText(RegistrationActivity.this, "Enter valid cvv", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (pin.getText().toString().length() != 4) {
+                        Toast.makeText(RegistrationActivity.this, "Please enter Pinnumber", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (!btn_pic.getText().toString().equals("uploaded")) {
+                        Toast.makeText(RegistrationActivity.this, "please select a picture", Toast.LENGTH_SHORT).show();
+                    } else {
+                        startRegistration();
+                    }
+                } else if (cary.isChecked() == true) {
                     if (name.getText().toString().isEmpty() || (!name.getText().toString().matches(Validations.text))) {
                         name.setError("Please enter your name");
                     }
-//                     if (email.getText().toString().isEmpty() || (!email.getText().toString().matches(Validations.email))) {
-//                        email.setError("Please enter valid your email");
-//                    }
-                     if (phone.getText().toString().isEmpty() || (!phone.getText().toString().matches(Validations.mobile))) {
+                    else if (email.getText().toString().isEmpty()) {
+                        email.setError("Please enter valid your email");
+                    }
+                    else  if (phone.getText().toString().isEmpty() || (!phone.getText().toString().matches(Validations.mobile))) {
                         phone.setError("Please enter a valid 10 digit number");
                     }
-                     if (address.getText().toString().isEmpty()) {
+                    else if (address.getText().toString().isEmpty()) {
                         address.setError("Please enter your addresss");
                     }
 
-                    if (vname.getText().toString().isEmpty()||(!vname.getText().toString().matches(Validations.text))) {
+                    else if (vname.getText().toString().isEmpty() || (!vname.getText().toString().matches(Validations.text))) {
                         vname.setError("Please enter your vehicle Name");
                     }
-                     if (vno.getText().toString().isEmpty()||(!vno.getText().toString().matches(Validations.vehicleno))) {
+                    else if (vno.getText().toString().isEmpty() || (!vno.getText().toString().matches(Validations.vehicleno))) {
                         vno.setError("Please entervalid vehicle number");
                     }
-                      if (seat.getText().toString().isEmpty()) {
+                    else if (seat.getText().toString().isEmpty()) {
                         seat.setError("Please enter your seat capacity");
                     }
-                    if(cardnumber.getText().toString().length()!=11)
-                    {
-                        Toast.makeText(RegistrationActivity.this,"please Enter a Valid CardNumber",Toast.LENGTH_SHORT).show();
+                    else if (cardnumber.getText().toString().length() != 11) {
+                        Toast.makeText(RegistrationActivity.this, "please Enter a Valid CardNumber", Toast.LENGTH_SHORT).show();
                     }
-                    if(cvv.getText().toString().length()!=3)
-                    {
+                    else if (cvv.getText().toString().length() != 3) {
                         Toast.makeText(RegistrationActivity.this, "Enter valid cvv", Toast.LENGTH_SHORT).show();
                     }
-                    if(pin.getText().toString().length()!=4)
-                    {
+                    else if (pin.getText().toString().length() != 4) {
                         Toast.makeText(RegistrationActivity.this, "Please enter Pinnumber", Toast.LENGTH_SHORT).show();
                     }
-                    if (!btn_pic.getText().toString().equals("uploaded")) {
+                    else if (!btn_pic.getText().toString().equals("uploaded")) {
                         Toast.makeText(RegistrationActivity.this, "please select a picture", Toast.LENGTH_SHORT).show();
-                    }
-                      else if (!btn_lisence.getText().toString().equals("uploaded")) {
+                    } else if (!btn_lisence.getText().toString().equals("uploaded")) {
                         Toast.makeText(RegistrationActivity.this, "please select your lisence picture", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
+                        Log.d("@@",cardnumber.getText().toString()+"\n"+cvv.getText().toString()+"\n"+pin.getText().toString());
                         startRegistration();
                     }
                 }
@@ -269,7 +258,8 @@ public class RegistrationActivity extends AppCompatActivity {
         Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
         Call<Login_Model> call = apiinterface.getRegisterData("register", name.getText().toString(), email.getText().toString(),
                 phone.getText().toString(), address.getText().toString(), Gender, utype,
-                vname.getText().toString(), vno.getText().toString(), seat.getText().toString(), encodedImage, encodedImage1, pref.getString("regId", ""));
+                vname.getText().toString(), vno.getText().toString(), seat.getText().toString(), encodedImage, encodedImage1, pref.getString("regId", ""),
+                cardnumber.getText().toString(), cvv.getText().toString(), pin.getText().toString());
         call.enqueue(new Callback<Login_Model>() {
             @Override
             public void onResponse(Call<Login_Model> call, Response<Login_Model> response) {

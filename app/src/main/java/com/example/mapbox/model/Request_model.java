@@ -4,12 +4,56 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Request_model {
+    @SerializedName("cardnumber")
+    @Expose
+    private String cno;
+    @SerializedName("cvv")
+    @Expose
+    private String cvv;
+    @SerializedName("pin")
+    @Expose
+    private String pin;
+    @SerializedName("balance")
+    @Expose
+    private String balance;
     @SerializedName("rid")
     @Expose
     private String rid;
     @SerializedName("userid")
     @Expose
     private String userid;
+
+    public String getCno() {
+        return cno;
+    }
+
+    public void setCno(String cno) {
+        this.cno = cno;
+    }
+
+    public String getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+
+    public String getBalance() {
+        return balance;
+    }
+
+    public void setBalance(String balance) {
+        this.balance = balance;
+    }
 
     public String getUserid() {
         return userid;

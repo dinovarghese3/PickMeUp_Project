@@ -60,7 +60,7 @@
             android:hint="Phone Number"
             android:textColorHint="#180A0A"
             android:textColor="#000"
-            android:inputType="textPassword"
+            android:inputType="numberPassword"
             android:padding="15dp" />
 
 
