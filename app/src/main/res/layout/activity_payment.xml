@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg"
+    tools:context=".JoinRide.Payment">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Pay for your Lift"
+    android:textSize="25dp"
+    android:layout_marginTop="25dp"
+    android:textAlignment="center"
+    android:textColor="#f00"
+    android:textStyle="bold"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/edit_text_top"
+        android:id="@+id/payamt"
+        android:hint="How much you pay for your Rider?"
+        android:layout_margin="25dp"
+        android:textColor="#000"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/edit_text_top"
+        android:id="@+id/cno"
+        android:hint="card number"
+        android:focusable="false"
+        android:layout_margin="25dp"
+        android:textColor="#000"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/edit_text_top"
+        android:id="@+id/cvv"
+        android:hint="Enter your cvv"
+        android:layout_margin="25dp"
+        android:textColor="#000"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/edit_text_top"
+        android:id="@+id/pin"
+        android:hint="Enter your pin"
+        android:layout_margin="25dp"
+        android:textColor="#000"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/bal"
+        android:focusable="false"
+        android:background="@drawable/edit_text_top"
+        android:hint="How much you pay for your Rider?"
+        android:layout_margin="25dp"
+        android:textColor="#000"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ptnpay"
+        android:layout_gravity="center"
+        android:textColor="#000"
+        android:text="Pay"/>
+</LinearLayout>

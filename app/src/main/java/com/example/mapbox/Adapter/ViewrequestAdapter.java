@@ -191,6 +191,7 @@ public class ViewrequestAdapter extends RecyclerView.Adapter<ViewrequestAdapter.
                             SharedPreferences sp=context.getSharedPreferences("finish",Context.MODE_PRIVATE);
                             SharedPreferences.Editor ed=sp.edit();
                             ed.putString("uid",uid);
+                            ed.putString("rid",p.getRid());
                             ed.putString("reqid",p.getReqid());
                             ed.commit();
                             Intent i = new Intent(context, FinishActivity.class);

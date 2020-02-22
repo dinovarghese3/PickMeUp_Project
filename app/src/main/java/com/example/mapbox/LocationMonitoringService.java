@@ -195,7 +195,7 @@ public class LocationMonitoringService extends Service implements
         //Date currentTime = Calendar.getInstance().getTime();
         //schedule the timer, to wake up every 5 minute
 
-        timer1.schedule(timerTask1, 10000, 10000); //
+        timer1.schedule(timerTask1, 1000, 1000); //
     }
 
     public void initializeTimerTask1() {

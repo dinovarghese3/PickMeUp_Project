@@ -2,7 +2,7 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="#9C00B8D4">
 
 
     <LinearLayout
@@ -11,7 +11,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:background="@drawable/button"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -26,7 +25,7 @@
             android:layout_margin="10dp"
             android:textColorHint="#180A0A"
             android:textColor="#000"
-            android:background="@drawable/edit_text_middle"
+            android:background="@drawable/button"
             />
 
 
@@ -37,7 +36,7 @@
             android:hint="Email id"
             android:layout_margin="10dp"
             android:textColor="#000"
-            android:background="@drawable/edit_text_middle"
+            android:background="@drawable/button"
             android:textColorHint="#180A0A"
             android:inputType="textEmailAddress"
             android:padding="15dp" />
@@ -50,7 +49,7 @@
             android:hint="PhoneNumber"
             android:layout_margin="10dp"
             android:textColor="#000"
-            android:background="@drawable/edit_text_middle"
+            android:background="@drawable/button"
             android:textColorHint="#180A0A"
             android:inputType="phone"
             android:padding="15dp" />
@@ -63,10 +62,46 @@
             android:ems="10"
             android:layout_margin="10dp"
             android:textColor="#000"
-            android:background="@drawable/edit_text_middle"
+            android:background="@drawable/button"
             android:textColorHint="#180A0A"
             android:hint="Address"
             android:inputType="textPersonName"
+            android:padding="15dp" />
+        <EditText
+            android:id="@+id/cardNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_margin="10dp"
+            android:textColor="#000"
+            android:background="@drawable/button"
+            android:textColorHint="#180A0A"
+            android:hint="CardNumber"
+            android:inputType="number"
+            android:padding="15dp" />
+        <EditText
+            android:id="@+id/cvv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_margin="10dp"
+            android:textColor="#000"
+            android:background="@drawable/button"
+            android:textColorHint="#180A0A"
+            android:hint="CVV"
+            android:inputType="number"
+            android:padding="15dp" />
+        <EditText
+            android:id="@+id/pin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_margin="10dp"
+            android:textColor="#000"
+            android:background="@drawable/button"
+            android:textColorHint="#180A0A"
+            android:hint="PIN"
+            android:inputType="numberPassword"
             android:padding="15dp" />
 
         <TextView
@@ -82,28 +117,33 @@
         <RadioGroup
             android:id="@+id/gender"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            >
+            android:layout_height="wrap_content">
 
             <RadioButton
                 android:id="@+id/radio_male"
-                android:textColor="#000"
-                android:layout_marginTop="5dp"
-                android:background="#D2ECC8"
-                android:checked="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="male"></RadioButton>
+
+                android:layout_marginTop="5dp"
+                android:checked="true"
+                android:outlineSpotShadowColor="#00FF0000"
+                android:scrollbarThumbHorizontal="@color/mapbox_navigation_route_layer_congestion_yellow"
+                android:scrollbarThumbVertical="@color/mapbox_plugins_green"
+                android:text="male"
+                android:textColor="#000"></RadioButton>
 
             <RadioButton
                 android:id="@+id/radio_female"
-                android:textColor="#000"
-                android:background="#D2ECC8"
-                android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content"
-                android:text="female"></RadioButton>
+                android:layout_marginTop="5dp"
+                android:scrollbarThumbHorizontal="@color/mapbox_navigation_route_layer_congestion_yellow"
+                android:scrollbarThumbVertical="@color/mapbox_plugins_green"
+                android:scrollbarTrackHorizontal="@color/colorAccent"
+                android:scrollbarTrackVertical="@color/mapbox_navigation_view_color_banner_background_dark"
+                android:text="female"
+                android:textColor="#000"></RadioButton>
         </RadioGroup>
 
 
@@ -125,7 +165,7 @@
             <RadioButton
                 android:id="@+id/yes"
                 android:textColor="#000"
-                android:background="#D2ECC8"
+
                 android:layout_marginTop="5dp"
 
                 android:layout_width="wrap_content"
@@ -134,7 +174,7 @@
 
             <RadioButton
                 android:id="@+id/No"
-                android:background="#D2ECC8"
+
                 android:textColor="#000"
                 android:checked="true"
                 android:layout_marginTop="5dp"
@@ -151,7 +191,7 @@
             android:hint="Vehicle Name"
             android:layout_margin="10dp"
             android:textColor="#000"
-            android:background="@drawable/edit_text_middle"
+            android:background="@drawable/button"
             android:textColorHint="#180A0A"
             android:inputType="textPersonName"
             android:padding="15dp"
@@ -165,7 +205,7 @@
             android:hint="Vehicle Number"
             android:layout_margin="10dp"
             android:textColor="#000"
-            android:background="@drawable/edit_text_middle"
+            android:background="@drawable/button"
             android:textColorHint="#180A0A"
             android:inputType="text"
             android:padding="15dp"
@@ -180,7 +220,7 @@
             android:inputType="number"
             android:layout_margin="10dp"
             android:textColor="#000"
-            android:background="@drawable/edit_text_middle"
+            android:background="@drawable/button"
             android:textColorHint="#180A0A"
             android:padding="15dp"
             android:visibility="gone" />
@@ -197,28 +237,36 @@
 
         <Button
             android:id="@+id/licence"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="Choose a Photo"
+            android:background="@drawable/button"
+            android:textColor="#000"
             android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="100dp"
             android:textColor="#000"
             android:text="Upload your Photo" />
 
         <Button
             android:id="@+id/choose"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Select Photo" />
+            android:text="Select Photo"
+            android:textColor="#000"
+            android:background="@drawable/button"
+            />
 
 
         <Button
             android:id="@+id/register"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textColor="#000"

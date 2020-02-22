@@ -169,7 +169,21 @@ public class DecisionActivity extends AppCompatActivity {
                     update.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startRegistration();
+                            if(vname.getText().toString().isEmpty()){
+                                vname.setError("Enter vechile name");
+                            }
+                            else if(vno.getText().toString().isEmpty()|| !vno.getText().toString().matches(Validations.vehicleno)){
+                                vno.setError("Enter vechile number");
+                            }
+                            else if(seat.getText().toString().isEmpty()){
+                                seat.setError("Enter seat capacity");
+                            }
+                            else if(uplic.getText().toString().equals("uploaded")){
+                                Toast.makeText(DecisionActivity.this, "Please select your lisence", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                startRegistration();
+                            }
                         }
                     });
                     dialog.show();
