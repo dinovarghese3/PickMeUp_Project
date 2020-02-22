@@ -5,6 +5,7 @@ import com.example.mapbox.model.Login_Model;
 import com.example.mapbox.model.NearestModel;
 import com.example.mapbox.model.Profile_pojo;
 import com.example.mapbox.model.Request_model;
+import com.example.mapbox.model.getPayee;
 import com.example.mapbox.model.viewRequest_model;
 
 import java.util.List;
@@ -19,6 +20,8 @@ import retrofit2.http.Query;
 
 public interface Apiinterface {
 
+    @GET("pickme.php")
+    Call<getPayee>  getpayee(@Query("key") String token, @Query("uid") String type);
     //@FormUrlEncoded
     @GET("pickme.php")
     Call<Login_Model> getlogindata(@Query("key") String token, @Query("uname") String userid, @Query("pass") String pass);
