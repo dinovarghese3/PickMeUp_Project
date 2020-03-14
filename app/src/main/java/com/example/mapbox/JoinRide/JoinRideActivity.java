@@ -1,5 +1,6 @@
 package com.example.mapbox.JoinRide;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -54,7 +55,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 public class JoinRideActivity extends FragmentActivity implements OnMapReadyCallback {
+
+
     String formattedDate;
     String latitude, longitude;
     private GoogleMap mMap;
@@ -62,66 +66,74 @@ public class JoinRideActivity extends FragmentActivity implements OnMapReadyCall
     private static final String TAG = JoinRideActivity.class.getSimpleName();
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
             new LatLng(23.63936, 68.14712), new LatLng(28.20453, 97.34466));
-EditText srch;
-Button search;
+    EditText srch;
+    Button search;
     List<NearestModel> rlist;
     FloatingActionButton log, prof, noti;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_join_ride);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        rlist = new ArrayList<>();
-        rc = findViewById(R.id.riderrecycle);
-        srch = findViewById(R.id.destsrch);
-        search = findViewById(R.id.srch);
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(srch.getText().toString().isEmpty()){
-                    srch.setError("please enter your destination");
-                }
-                else{
-               // Toast.makeText(JoinRideActivity.this, "am here", Toast.LENGTH_SHORT).show();
-                Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
-                Call<List<NearestModel>> call = apiinterface.searchnear1("searchneNearRiders1",formattedDate,srch.getText().toString());
-                call.enqueue(new Callback<List<NearestModel>>() {
-                    @Override
-                    public void onResponse(Call<List<NearestModel>> call, Response<List<NearestModel>> response) {
-                        int i;
-                        rlist = response.body();
+
+          try {
+
+              super.onCreate(savedInstanceState);
+              setContentView(R.layout.activity_join_ride);
+              // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+              SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                      .findFragmentById(R.id.map);
+              mapFragment.getMapAsync(this);
+              rlist = new ArrayList<>();
+              rc = findViewById(R.id.riderrecycle);
+              srch = findViewById(R.id.destsrch);
+              search = findViewById(R.id.srch);
+              search.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                      if (srch.getText().toString().isEmpty()) {
+                          srch.setError("please enter your destination");
+                      } else {
+                          // Toast.makeText(JoinRideActivity.this, "am here", Toast.LENGTH_SHORT).show();
+                          Apiinterface apiinterface = Apiclient.getClient().create(Apiinterface.class);
+                          Call<List<NearestModel>> call = apiinterface.searchnear1("searchneNearRiders1", formattedDate, srch.getText().toString());
+                          call.enqueue(new Callback<List<NearestModel>>() {
+                              @Override
+                              public void onResponse(Call<List<NearestModel>> call, Response<List<NearestModel>> response) {
+                                  int i;
+                                  rlist = response.body();
 //                Log.d("@@@@@",rlist.get(0).getClat()+"");
-                        for (i = 0; i < rlist.size(); i++) {
-                            mMap.clear();
-                            LatLng latLng = new LatLng(Double.parseDouble(rlist.get(i).getDlat().trim()), Double.parseDouble(rlist.get(i).getDlon().trim()));
-                            mMap.addMarker(new MarkerOptions()
-                                    .position(latLng)
-                                    .title(rlist.get(i).getDestination())
-                                    .icon(BitmapDescriptorFactory
-                                            .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))).showInfoWindow();
-                            CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
-                            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                                  for (i = 0; i < rlist.size(); i++) {
+                                      mMap.clear();
+                                      LatLng latLng = new LatLng(Double.parseDouble(rlist.get(i).getDlat().trim()), Double.parseDouble(rlist.get(i).getDlon().trim()));
+                                      mMap.addMarker(new MarkerOptions()
+                                              .position(latLng)
+                                              .title(rlist.get(i).getDestination())
+                                              .icon(BitmapDescriptorFactory
+                                                      .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))).showInfoWindow();
+                                      CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
+                                      mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-                        }
-                        RiderAdapter ra = new RiderAdapter(getApplicationContext(), rlist);
-                        rc.setAdapter(ra);
+                                  }
+                                  RiderAdapter ra = new RiderAdapter(getApplicationContext(), rlist);
+                                  rc.setAdapter(ra);
 
-                    }
+                              }
 
-                    @Override
-                    public void onFailure(Call<List<NearestModel>> call, Throwable t) {
+                              @Override
+                              public void onFailure(Call<List<NearestModel>> call, Throwable t) {
 
-                    }
-                });
-            }}
-        });
-        GridLayoutManager gg = new GridLayoutManager(this, 2);
-        rc.setLayoutManager(gg);
-        initApp();
+                              }
+                          });
+                      }
+                  }
+              });
+              GridLayoutManager gg = new GridLayoutManager(this, 2);
+              rc.setLayoutManager(gg);
+              initApp();
+          }catch (Exception e)
+          {
+              Toast.makeText(this, "An error is occured Make sure the GPS is turnd on", Toast.LENGTH_SHORT).show();
+
+          }
     }
 
     private void initApp() {
@@ -219,7 +231,7 @@ Button search;
         mMap.setMyLocationEnabled(true);
 
 
-          googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         // Add a marker in Sydney and move the camera
 
         LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -230,7 +242,7 @@ Button search;
                         longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
                         //  Toast.makeText(userHome.this, latitude + longitude + "", Toast.LENGTH_SHORT).show();
                         if (latitude != null && longitude != null) {
-                           // searchNearestRiders();
+                            // searchNearestRiders();
                             LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
 
 //                            Log.d("@@",latitude);
@@ -254,4 +266,6 @@ Button search;
         startActivity(new Intent(getApplicationContext(), DecisionActivity.class));
         finish();
     }
+
+
 }

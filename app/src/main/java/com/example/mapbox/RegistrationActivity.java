@@ -204,9 +204,9 @@ public class RegistrationActivity extends AppCompatActivity {
                     else if (vname.getText().toString().isEmpty() || (!vname.getText().toString().matches(Validations.text))) {
                         vname.setError("Please enter your vehicle Name");
                     }
-                    else if (vno.getText().toString().isEmpty() || (!vno.getText().toString().matches(Validations.vehicleno))) {
-                        vno.setError("Please entervalid vehicle number");
-                    }
+                    //else if (vno.getText().toString().isEmpty() || (!vno.getText().toString().matches(Validations.vehicleno))) {
+                       // vno.setError("Please entervalid vehicle number");
+                   // }
                     else if (seat.getText().toString().isEmpty()) {
                         seat.setError("Please enter your seat capacity");
                     }

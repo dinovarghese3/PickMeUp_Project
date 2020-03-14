@@ -90,210 +90,243 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Mapbox.getInstance(this, "pk.eyJ1Ijoibml0aGluYmFidTEyMyIsImEiOiJjazY2OHloancweW9uM2RtcDk2aWh6cHVhIn0.8XYmWjda9Mdj6O4BYxjvKg");
+        try {
+            super.onCreate(savedInstanceState);
+            Mapbox.getInstance(this, "pk.eyJ1Ijoibml0aGluYmFidTEyMyIsImEiOiJjazY2OHloancweW9uM2RtcDk2aWh6cHVhIn0.8XYmWjda9Mdj6O4BYxjvKg");
 
-        setContentView(R.layout.activity_main);
-        mapView = findViewById(R.id.mapView);
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(this);
+            setContentView(R.layout.activity_main);
+            mapView = findViewById(R.id.mapView);
+            mapView.onCreate(savedInstanceState);
+            mapView.getMapAsync(this);
 
-        startnav = findViewById(R.id.startnav);
-        req = findViewById(R.id.request);
-        profile = findViewById(R.id.profile);
-        logout = findViewById(R.id.logout);
-        sp1 = getSharedPreferences("doc", Context.MODE_PRIVATE);
-        final SharedPreferences sp = getSharedPreferences("loc", Context.MODE_PRIVATE);
-        req.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), RiderNotification.class));
-                finish();
-            }
-        });
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), RiderProfile.class));
-                finish();
-            }
-        });
+            startnav = findViewById(R.id.startnav);
+            req = findViewById(R.id.request);
+            profile = findViewById(R.id.profile);
+            logout = findViewById(R.id.logout);
+            sp1 = getSharedPreferences("doc", Context.MODE_PRIVATE);
+            final SharedPreferences sp = getSharedPreferences("loc", Context.MODE_PRIVATE);
+            req.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getApplicationContext(), RiderNotification.class));
+                    finish();
+                }
+            });
+            profile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getApplicationContext(), RiderProfile.class));
+                    finish();
+                }
+            });
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences sharedPreferences = getSharedPreferences("logindata", Context.MODE_PRIVATE);
-                SharedPreferences.Editor ed = sharedPreferences.edit();
-                ed.putString("uid", "");
-                ed.commit();
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                finish();
-            }
-        });
+            logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SharedPreferences sharedPreferences = getSharedPreferences("logindata", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor ed = sharedPreferences.edit();
+                    ed.putString("uid", "");
+                    ed.commit();
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    finish();
+                }
+            });
 
-        startnav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Geocoder geocoder = new Geocoder(MainActivity.this, Locale.ENGLISH);
+            startnav.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Geocoder geocoder = new Geocoder(MainActivity.this, Locale.ENGLISH);
 
-                List<Address> addresses = null;
-                try {
-                    addresses = geocoder.getFromLocation(mapboxMap.getLocationComponent().getLastKnownLocation().getLatitude(), mapboxMap.getLocationComponent().getLastKnownLocation().getLongitude(), 1);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-
-
-                String address = addresses.get(0).getAddressLine(0);
-                SharedPreferences.Editor ed = sp.edit();
-                ed.putString("address", address.toString());
-                ed.putString("clat", mapboxMap.getLocationComponent().getLastKnownLocation().getLatitude() + "");
-                ed.putString("clon", mapboxMap.getLocationComponent().getLastKnownLocation().getLongitude() + "");
-                ed.commit();
-
-                startActivity(new Intent(getApplicationContext(), CreateRide.class));
-                finish();
-
-            }
-        });
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-                new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        latitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LATITUDE);
-                        longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
-                        //  Toast.makeText(userHome.this, latitude + longitude + "", Toast.LENGTH_SHORT).show();
-                        if (latitude != null && longitude != null) {
-
-                            mapboxMap.animateCamera(com.mapbox.mapboxsdk.camera.
-                                    CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(latitude),
-                                            Double.parseDouble(longitude)),
-                                    8));
+                    List<Address> addresses = null;
+                    try {
+                        addresses = geocoder.getFromLocation(mapboxMap.getLocationComponent().getLastKnownLocation().getLatitude(), mapboxMap.getLocationComponent().getLastKnownLocation().getLongitude(), 1);
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
 
+                    String address = addresses.get(0).getAddressLine(0);
+                    SharedPreferences.Editor ed = sp.edit();
+                    ed.putString("address", address.toString());
+                    ed.putString("clat", mapboxMap.getLocationComponent().getLastKnownLocation().getLatitude() + "");
+                    ed.putString("clon", mapboxMap.getLocationComponent().getLastKnownLocation().getLongitude() + "");
+                    ed.commit();
+
+                    startActivity(new Intent(getApplicationContext(), CreateRide.class));
+                    finish();
+
+                }
+            });
+
+            LocalBroadcastManager.getInstance(this).registerReceiver(
+                    new BroadcastReceiver() {
+                        @Override
+                        public void onReceive(Context context, Intent intent) {
+                            latitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LATITUDE);
+                            longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
+                            //  Toast.makeText(userHome.this, latitude + longitude + "", Toast.LENGTH_SHORT).show();
+                            if (latitude != null && longitude != null) {
+
+                                mapboxMap.animateCamera(com.mapbox.mapboxsdk.camera.
+                                        CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(latitude),
+                                                Double.parseDouble(longitude)),
+                                        8));
+
+
+                            }
                         }
-                    }
-                }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
-        );
+                    }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
+            );
+        }catch (Exception e){
+            Toast.makeText(this, "Make Sure GPS is ON", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-        this.mapboxMap = mapboxMap;
-        mapboxMap.setStyle(getString(R.string.navigation_guidance_day), new Style.OnStyleLoaded() {
+        try {
 
 
-            @Override
-            public void onStyleLoaded(@NonNull Style style) {
-                enableLocationComponent(style);
+            this.mapboxMap = mapboxMap;
+            mapboxMap.setStyle(getString(R.string.navigation_guidance_day), new Style.OnStyleLoaded() {
 
-                addDestinationIconSymbolLayer(style);
 
-                mapboxMap.addOnMapClickListener(MainActivity.this);
-                button = findViewById(R.id.startButton);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        boolean simulateRoute = true;
-                        NavigationLauncherOptions options = NavigationLauncherOptions.builder()
-                                .directionsRoute(currentRoute)
-                                .shouldSimulateRoute(simulateRoute)
-                                .build();
+                @Override
+                public void onStyleLoaded(@NonNull Style style) {
+                    enableLocationComponent(style);
+
+                    addDestinationIconSymbolLayer(style);
+
+                    mapboxMap.addOnMapClickListener(MainActivity.this);
+                    button = findViewById(R.id.startButton);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            boolean simulateRoute = true;
+                            NavigationLauncherOptions options = NavigationLauncherOptions.builder()
+                                    .directionsRoute(currentRoute)
+                                    .shouldSimulateRoute(simulateRoute)
+                                    .build();
 // Call this method with Context from within an Activity
-                        NavigationLauncher.startNavigation(MainActivity.this, options);
-                    }
-                });
+                            NavigationLauncher.startNavigation(MainActivity.this, options);
+                        }
+                    });
 
-            }
+                }
 
 
-        });
+            });
+        }catch (Exception e){
+            Toast.makeText(this, "Make Sure GPS is ON", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
     private void addDestinationIconSymbolLayer(@NonNull Style loadedMapStyle) {
-        loadedMapStyle.addImage("destination-icon-id",
-                BitmapFactory.decodeResource(this.getResources(), R.drawable.mapbox_marker_icon_default));
-        GeoJsonSource geoJsonSource = new GeoJsonSource("destination-source-id");
-        loadedMapStyle.addSource(geoJsonSource);
-        SymbolLayer destinationSymbolLayer = new SymbolLayer("destination-symbol-layer-id", "destination-source-id");
-        destinationSymbolLayer.withProperties(
-                iconImage("destination-icon-id"),
-                iconAllowOverlap(true),
-                iconIgnorePlacement(true)
-        );
-        loadedMapStyle.addLayer(destinationSymbolLayer);
+        try {
+
+
+            loadedMapStyle.addImage("destination-icon-id",
+                    BitmapFactory.decodeResource(this.getResources(), R.drawable.mapbox_marker_icon_default));
+            GeoJsonSource geoJsonSource = new GeoJsonSource("destination-source-id");
+            loadedMapStyle.addSource(geoJsonSource);
+            SymbolLayer destinationSymbolLayer = new SymbolLayer("destination-symbol-layer-id", "destination-source-id");
+            destinationSymbolLayer.withProperties(
+                    iconImage("destination-icon-id"),
+                    iconAllowOverlap(true),
+                    iconIgnorePlacement(true)
+            );
+            loadedMapStyle.addLayer(destinationSymbolLayer);
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, "GPS Error !!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @SuppressWarnings({"MissingPermission"})
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
-        if (sp1.getString("lat", "") != "" && sp1.getString("lon", "") != "") {
-            Point destinationPoint = Point.fromLngLat(Double.parseDouble(sp1.getString("lon", "")), Double.parseDouble(sp1.getString("lat", "")));
+        try {
 
-            // Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-            Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
-                    locationComponent.getLastKnownLocation().getLatitude());
 
-            GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
-            if (source != null) {
-                source.setGeoJson(Feature.fromGeometry(destinationPoint));
+            if (sp1.getString("lat", "") != "" && sp1.getString("lon", "") != "") {
+                Point destinationPoint = Point.fromLngLat(Double.parseDouble(sp1.getString("lon", "")), Double.parseDouble(sp1.getString("lat", "")));
+
+                // Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
+                Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
+                        locationComponent.getLastKnownLocation().getLatitude());
+
+                GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
+                if (source != null) {
+                    source.setGeoJson(Feature.fromGeometry(destinationPoint));
+                }
+
+                getRoute(originPoint, destinationPoint);
             }
-
-            getRoute(originPoint, destinationPoint);
+            return true;
         }
-        return true;
+        catch (Exception e){
+            Toast.makeText(this, "Make Sure GPS is ON", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
 
     }
 
     private void getRoute(Point origin, Point destination) {
-        final ProgressDialog progressDoalog = new ProgressDialog(MainActivity.this);
-        progressDoalog.setMax(100);
-        progressDoalog.setMessage("Loading your route");
-        progressDoalog.setTitle("Please wait");
-        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDoalog.show();
-        NavigationRoute.builder(this)
-                .accessToken(Mapbox.getAccessToken())
-                .origin(origin)
-                .destination(destination)
-                .build()
-                .getRoute(new Callback<DirectionsResponse>() {
-                    @Override
-                    public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
-// You can get the generic HTTP info about the response
-                        Log.d(TAG, "Response code: " + response.code());
-                        if (response.body() == null) {
-                            Log.e(TAG, "No routes found, make sure you set the right user and access token.");
-                            return;
-                        } else if (response.body().routes().size() < 1) {
-                            Log.e(TAG, "No routes found");
-                            return;
-                        }
+        try {
 
-                        currentRoute = response.body().routes().get(0);
+
+            final ProgressDialog progressDoalog = new ProgressDialog(MainActivity.this);
+            progressDoalog.setMax(100);
+            progressDoalog.setMessage("Loading your route");
+            progressDoalog.setTitle("Please wait");
+            progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDoalog.show();
+            NavigationRoute.builder(this)
+                    .accessToken(Mapbox.getAccessToken())
+                    .origin(origin)
+                    .destination(destination)
+                    .build()
+                    .getRoute(new Callback<DirectionsResponse>() {
+                        @Override
+                        public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
+// You can get the generic HTTP info about the response
+                            Log.d(TAG, "Response code: " + response.code());
+                            if (response.body() == null) {
+                                Log.e(TAG, "No routes found, make sure you set the right user and access token.");
+                                return;
+                            } else if (response.body().routes().size() < 1) {
+                                Log.e(TAG, "No routes found");
+                                return;
+                            }
+
+                            currentRoute = response.body().routes().get(0);
 
 // Draw the route on the map
-                        if (navigationMapRoute != null) {
-                            navigationMapRoute.removeRoute();
-                        } else {
-                            navigationMapRoute = new NavigationMapRoute(null, mapView, mapboxMap, R.style.NavigationMapRoute);
+                            if (navigationMapRoute != null) {
+                                navigationMapRoute.removeRoute();
+                            } else {
+                                navigationMapRoute = new NavigationMapRoute(null, mapView, mapboxMap, R.style.NavigationMapRoute);
+                            }
+                            navigationMapRoute.addRoute(currentRoute);
+                            progressDoalog.dismiss();
+                            button.setEnabled(true);
+                            button.setVisibility(View.VISIBLE);
+                            button.setBackgroundResource(R.color.colorAccent);
                         }
-                        navigationMapRoute.addRoute(currentRoute);
-                        progressDoalog.dismiss();
-                        button.setEnabled(true);
-                        button.setVisibility(View.VISIBLE);
-                        button.setBackgroundResource(R.color.colorAccent);
-                    }
 
-                    @Override
-                    public void onFailure(Call<DirectionsResponse> call, Throwable throwable) {
-                        Log.e(TAG, "Error: " + throwable.getMessage());
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<DirectionsResponse> call, Throwable throwable) {
+                            Log.e(TAG, "Error: " + throwable.getMessage());
+                        }
+                    });
+        }catch (Exception e){
+            Toast.makeText(this, "GPS Error", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @SuppressWarnings({"MissingPermission"})

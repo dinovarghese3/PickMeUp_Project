@@ -3,14 +3,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="#BEB0B0">
     <EditText
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/pname"
         android:textColorHint="#000"
         android:textColor="#000"
-        android:background="@drawable/edit_text_middle"
+        android:background="@drawable/button"
         android:layout_margin="10dp"
         android:hint="Parents's Email"/>
     <EditText
@@ -20,7 +20,7 @@
         android:textColorHint="#000"
         android:textColor="#000"
         android:inputType="phone"
-        android:background="@drawable/edit_text_middle"
+        android:background="@drawable/button"
         android:layout_margin="10dp"
         android:hint="Mobile Number"/>
 
@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/padd"
         android:layout_margin="10dp"
+        android:background="@drawable/button"
         android:layout_gravity="center"
         android:text="Add parent"/>
 </LinearLayout>

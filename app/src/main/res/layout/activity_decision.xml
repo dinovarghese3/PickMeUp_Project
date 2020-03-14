@@ -14,32 +14,6 @@
     android:layout_height="match_parent"
     tools:ignore="MissingConstraints">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="227dp"
-        android:layout_height="175dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.165"
-        app:srcCompat="@drawable/globe" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Pick Me Up"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="46sp"
-        android:fontFamily="sans-serif"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -60,7 +34,7 @@
             android:id="@+id/create_ride"
             android:layout_width="320dp"
             android:layout_height="70dp"
-            android:layout_marginTop="380dp"
+            android:layout_marginTop="336dp"
             android:background="@drawable/button"
             android:drawableLeft="@drawable/carowner"
             android:padding="15dp"
@@ -92,10 +66,10 @@
         <Button
             android:id="@+id/parent1"
             android:layout_width="320dp"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/button"
-            android:text="Add Your parent"
+            android:text="Add parent"
             android:textColor="#FE5295"
             android:textSize="18sp"
             android:drawableLeft="@drawable/parent"
@@ -106,32 +80,21 @@
             app:layout_constraintTop_toBottomOf="@+id/search_Ride"
             app:layout_constraintVertical_bias="0.0" />
 
-        <ImageView
-            android:id="@+id/carsearch"
-            android:layout_width="142dp"
-            android:layout_height="81dp"
-            android:layout_marginBottom="148dp"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="Pick Me Up"
+            android:textColor="#FFFFFF"
+            android:textSize="46sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/create_ride"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.392"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.972"
-            app:srcCompat="@drawable/carsearch" />
-
-        <ImageView
-            android:id="@+id/marker"
-            android:layout_width="63dp"
-            android:layout_height="38dp"
-
-            android:layout_marginBottom="224dp"
-            app:layout_constraintBottom_toTopOf="@+id/create_ride"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.635"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            app:srcCompat="@drawable/marker" />
+            app:layout_constraintVertical_bias="0.242" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

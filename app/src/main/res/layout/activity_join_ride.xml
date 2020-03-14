@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
@@ -7,53 +7,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:orientation="vertical"    >
+    android:background="@drawable/bgbluew"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="73dp"
-        android:background="@drawable/button"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/destsrch"
-            android:layout_width="220dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button"
-            android:hint="Enter your destination"
-            android:padding="10dp"
-            android:textAlignment="center"
-            android:textColorHint="#000" />
-
-        <Button
-            android:id="@+id/srch"
-            android:layout_width="111dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-
-            android:background="@drawable/button"
-            android:text="Search" />
-    </LinearLayout>
 
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="476dp"
-        tools:context=".JoinRide.JoinRideActivity">
-
+        android:layout_height="400dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:context=".JoinRide.JoinRideActivity"
+        tools:layout_editor_absoluteX="-16dp">
 
         <com.github.clans.fab.FloatingActionMenu
+
             android:id="@+id/floatingMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/map"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             fab:menu_animationDelayPerItem="0"
@@ -85,6 +59,7 @@
                 android:id="@+id/logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="100dp"
                 android:src="@drawable/ic_logout"
                 fab:fab_label="Logout"
                 fab:fab_size="mini" />
@@ -93,18 +68,57 @@
 
     </fragment>
 
-    <androidx.core.widget.NestedScrollView
+    <com.google.android.material.circularreveal.CircularRevealGridLayout
+        android:id="@+id/rect"
         android:layout_width="match_parent"
-        android:layout_height="222dp"
+        android:layout_height="73dp"
+        android:background="@drawable/rect"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/nestedScrollView"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.997"
+        tools:layout_editor_absoluteX="0dp">
+
+        <EditText
+            android:id="@+id/destsrch"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button"
+            android:hint="Search Ride"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:textColorHint="#000" />
+
+        <Button
+            android:id="@+id/srch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button"
+            android:text="Search"
+            android:textColor="#000" />
+
+
+    </com.google.android.material.circularreveal.CircularRevealGridLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
         app:cardCornerRadius="50dp"
-        android:background="#fff"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rect"
+        tools:layout_editor_absoluteX="16dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/riderrecycle"
-            app:cardCornerRadius="50dp"
-            android:background="#fff"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/mapbg"
+            app:cardCornerRadius="50dp" />
     </androidx.core.widget.NestedScrollView>
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

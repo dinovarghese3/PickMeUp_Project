@@ -3,14 +3,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="#AC9B9B">
     <EditText
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/uvname"
         android:textColorHint="#000"
         android:textColor="#000"
-        android:background="@drawable/edit_text_middle"
+        android:background="@drawable/button"
         android:layout_margin="10dp"
         android:hint="Enter your vechicle Name"/>
     <EditText
@@ -19,7 +19,7 @@
         android:id="@+id/uvno"
         android:textColorHint="#000"
         android:textColor="#000"
-        android:background="@drawable/edit_text_middle"
+        android:background="@drawable/button"
         android:layout_margin="10dp"
         android:hint="Enter your vechicle Number"/>
     <EditText
@@ -28,7 +28,7 @@
         android:id="@+id/useat"
         android:textColorHint="#000"
         android:textColor="#000"
-        android:background="@drawable/edit_text_middle"
+        android:background="@drawable/button"
         android:layout_margin="10dp"
         android:hint="Enter your seat Capacity"/>
     <Button
@@ -37,6 +37,7 @@
         android:id="@+id/uupload"
         android:layout_gravity="center"
         android:layout_margin="10dp"
+        android:background="@drawable/button"
         android:text="upload your lisence"/>
     <Button
         android:layout_width="wrap_content"
@@ -44,5 +45,6 @@
         android:id="@+id/uupdate"
         android:layout_margin="10dp"
         android:layout_gravity="center"
+        android:background="@drawable/button"
         android:text="Update"/>
 </LinearLayout>

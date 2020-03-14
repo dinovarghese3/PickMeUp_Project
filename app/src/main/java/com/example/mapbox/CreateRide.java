@@ -83,6 +83,7 @@ public class CreateRide extends AppCompatActivity implements OnMapReadyCallback 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        try {
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, "pk.eyJ1Ijoibml0aGluYmFidTEyMyIsImEiOiJjazY2OHloancweW9uM2RtcDk2aWh6cHVhIn0.8XYmWjda9Mdj6O4BYxjvKg");
         setContentView(R.layout.activity_create_ride);
@@ -102,31 +103,32 @@ public class CreateRide extends AppCompatActivity implements OnMapReadyCallback 
         cloc.setText(sp.getString("address", ""));
         // Toast.makeText(this, sp.getString("address", ""), Toast.LENGTH_SHORT).show();
         search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(cloc.getText().toString().isEmpty()){
+                @Override
+                public void onClick (View v){
+                if (cloc.getText().toString().isEmpty()) {
                     cloc.setError("please enter your source");
                 }
-                if(dloc.getText().toString().isEmpty()){
+                if (dloc.getText().toString().isEmpty()) {
                     dloc.setError("please enter your destination");
                 }
-                if(cdate.getText().toString().isEmpty()){
+                if (cdate.getText().toString().isEmpty()) {
                     cdate.setError("please pick your ride date");
                 }
-                if(ctime.getText().toString().isEmpty()){
+                if (ctime.getText().toString().isEmpty()) {
                     ctime.setError("please pick your ride time");
-                }
-                else {
+                } else {
                     dloc.setError(null);
                     cdate.setError(null);
                     ctime.setError(null);
                     startRide();
                 }
             }
+
         });
         dloc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try{
                 initSearchFab();
 //                Intent intent = new PlacePicker.IntentBuilder()
 //                        .accessToken(Mapbox.getAccessToken())
@@ -140,6 +142,9 @@ public class CreateRide extends AppCompatActivity implements OnMapReadyCallback 
 //                                        .build())
 //                        .build(CreateRide.this);
 //                startActivityForResult(intent, 1);
+            }catch (Exception e){
+                    Toast.makeText(CreateRide.this, "Make sure GPS is on", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         cdate.setOnClickListener(new View.OnClickListener() {
@@ -154,9 +159,13 @@ public class CreateRide extends AppCompatActivity implements OnMapReadyCallback 
                 tiemPicker();
             }
         });
+    }catch (Exception e){
+            Toast.makeText(this, "An error occured Make sure GPS is Turned on", Toast.LENGTH_SHORT).show();
+        }
     }
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
+        try {
         this.mapboxMap = mapboxMap;
         mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
             @Override
@@ -176,34 +185,55 @@ public class CreateRide extends AppCompatActivity implements OnMapReadyCallback 
                 setupLayer(style);
             }
         });
+    } catch(Exception e)
+        {
+            Toast.makeText(this, "Make sure  GPS is on", Toast.LENGTH_SHORT).show();
+        }
     }
     private void addUserLocations() {
-        home = CarmenFeature.builder().text("Mapbox SF Office")
-                .geometry(Point.fromLngLat(-122.3964485, 37.7912561))
-                .placeName("50 Beale St, San Francisco, CA")
-                .id("mapbox-sf")
-                .properties(new JsonObject())
-                .build();
+        try {
 
-        work = CarmenFeature.builder().text("Mapbox DC Office")
-                .placeName("740 15th Street NW, Washington DC")
-                .geometry(Point.fromLngLat(-77.0338348, 38.899750))
-                .id("mapbox-dc")
-                .properties(new JsonObject())
-                .build();
+
+            home = CarmenFeature.builder().text("Mapbox SF Office")
+                    .geometry(Point.fromLngLat(-122.3964485, 37.7912561))
+                    .placeName("50 Beale St, San Francisco, CA")
+                    .id("mapbox-sf")
+                    .properties(new JsonObject())
+                    .build();
+
+            work = CarmenFeature.builder().text("Mapbox DC Office")
+                    .placeName("740 15th Street NW, Washington DC")
+                    .geometry(Point.fromLngLat(-77.0338348, 38.899750))
+                    .id("mapbox-dc")
+                    .properties(new JsonObject())
+                    .build();
+        }catch (Exception e)
+        {
+            Toast.makeText(this, "Make sure GPS is ON", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setUpSource(@NonNull Style loadedMapStyle) {
-        loadedMapStyle.addSource(new GeoJsonSource(geojsonSourceLayerId));
+        try {
+            loadedMapStyle.addSource(new GeoJsonSource(geojsonSourceLayerId));
+        }catch (Exception e){
+            Toast.makeText(this, "Make Sure GPS in ON", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void setupLayer(@NonNull Style loadedMapStyle) {
-        loadedMapStyle.addLayer(new SymbolLayer("SYMBOL_LAYER_ID", geojsonSourceLayerId).withProperties(
-                iconImage(symbolIconId),
-                iconOffset(new Float[] {0f, -8f})
-        ));
+        try {
+            loadedMapStyle.addLayer(new SymbolLayer("SYMBOL_LAYER_ID", geojsonSourceLayerId).withProperties(
+                    iconImage(symbolIconId),
+                    iconOffset(new Float[]{0f, -8f})
+            ));
+        }catch (Exception e){
+            Toast.makeText(this, "Make Sure GPS is ON", Toast.LENGTH_SHORT).show();
+        }
     }
     private void startRide() {
+        try {
         final ProgressDialog progressDoalog = new ProgressDialog(CreateRide.this);
         progressDoalog.setMax(100);
         progressDoalog.setMessage("Make your trip..");
@@ -233,6 +263,10 @@ public class CreateRide extends AppCompatActivity implements OnMapReadyCallback 
             }
         });
         progressDoalog.dismiss();
+    }catch (Exception e)
+        {
+            Toast.makeText(this, "Make Sure GPS is ON", Toast.LENGTH_SHORT).show();
+        }
     }
 
 //    @Override
@@ -296,91 +330,105 @@ public class CreateRide extends AppCompatActivity implements OnMapReadyCallback 
 //        }
 //    }
     private void initSearchFab() {
-                Intent intent = new PlaceAutocomplete.IntentBuilder()
-                        .accessToken(Mapbox.getAccessToken() != null ? Mapbox.getAccessToken() : getString(R.string.access_token))
-                        .placeOptions(PlaceOptions.builder()
-                                .backgroundColor(Color.parseColor("#EEEEEE"))
-                                .limit(10)
-                                .addInjectedFeature(home)
-                                .addInjectedFeature(work)
-                                .build(PlaceOptions.MODE_CARDS))
-                        .build(CreateRide.this);
-                startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE);
+        try {
+
+
+            Intent intent = new PlaceAutocomplete.IntentBuilder()
+                    .accessToken(Mapbox.getAccessToken() != null ? Mapbox.getAccessToken() : getString(R.string.access_token))
+                    .placeOptions(PlaceOptions.builder()
+                            .backgroundColor(Color.parseColor("#EEEEEE"))
+                            .limit(10)
+                            .addInjectedFeature(home)
+                            .addInjectedFeature(work)
+                            .build(PlaceOptions.MODE_CARDS))
+                    .build(CreateRide.this);
+            startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE);
+        }catch (Exception e)
+        {
+            Toast.makeText(this, "Make Sure GPS is ON", Toast.LENGTH_SHORT).show();
+        }
 
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
+        try {
 
-            // Retrieve selected location's CarmenFeature
-            CarmenFeature selectedCarmenFeature = PlaceAutocomplete.getPlace(data);
-            dloc.setText(selectedCarmenFeature.text());
+
+            super.onActivityResult(requestCode, resultCode, data);
+            if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
+
+                // Retrieve selected location's CarmenFeature
+                CarmenFeature selectedCarmenFeature = PlaceAutocomplete.getPlace(data);
+                dloc.setText(selectedCarmenFeature.text());
 //            // Toast.makeText(this, feature.text(), Toast.LENGTH_LONG).show();
-            try {
-                String location = selectedCarmenFeature.text();
-                Geocoder gc = new Geocoder(this);
-                List<Address> addresses = gc.getFromLocationName(location, 5); // get the found Address Objects
+                try {
+                    String location = selectedCarmenFeature.text();
+                    Geocoder gc = new Geocoder(this);
+                    List<Address> addresses = gc.getFromLocationName(location, 5); // get the found Address Objects
 
-                List<LatLng> ll = new ArrayList<LatLng>(addresses.size()); // A list to save the coordinates if they are available
-                for (Address a : addresses) {
-                    if (a.hasLatitude() && a.hasLongitude()) {
-                        ll.add(new LatLng(a.getLatitude(), a.getLongitude()));
+                    List<LatLng> ll = new ArrayList<LatLng>(addresses.size()); // A list to save the coordinates if they are available
+                    for (Address a : addresses) {
+                        if (a.hasLatitude() && a.hasLongitude()) {
+                            ll.add(new LatLng(a.getLatitude(), a.getLongitude()));
+                        }
+                    }
+                    Log.d("@@@@@", ll.size() + "");
+                    if (ll.size() > 0) {
+                        dlat = ll.get(0).getLatitude() + "";
+                        dlon = ll.get(0).getLongitude() + "";
+                        ed.putString("lat", ll.get(0).getLatitude() + "");
+                        ed.putString("lon", ll.get(0).getLongitude() + "");
+                        ed.commit();
+                    } else {
+                        AlertDialog.Builder builder;
+                        builder = new AlertDialog.Builder(this);
+
+                        //Setting message manually and performing action on button click
+                        builder.setMessage("Destination latlang not found.please try once again.")
+                                .setCancelable(false)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                        //Creating dialog box
+                        AlertDialog alert = builder.create();
+                        //Setting the title manually
+                        alert.setTitle("Destination Not Found");
+                        alert.show();
+                    }
+                    // Toast.makeText(this, a.getLatitude()+a.getLongitude()+"", Toast.LENGTH_SHORT).show();
+
+                } catch (IOException e) {
+                    // handle the exception
+                }
+                // Create a new FeatureCollection and add a new Feature to it using selectedCarmenFeature above.
+                // Then retrieve and update the source designated for showing a selected location's symbol layer icon
+
+                if (mapboxMap != null) {
+                    Style style = mapboxMap.getStyle();
+                    if (style != null) {
+                        GeoJsonSource source = style.getSourceAs(geojsonSourceLayerId);
+                        if (source != null) {
+                            source.setGeoJson(FeatureCollection.fromFeatures(
+                                    new Feature[]{Feature.fromJson(selectedCarmenFeature.toJson())}));
+                        }
+
+                        // Move map camera to the selected location
+                        mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
+                                new CameraPosition.Builder()
+                                        .target(new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
+                                                ((Point) selectedCarmenFeature.geometry()).longitude()))
+                                        .zoom(14)
+                                        .build()), 4000);
                     }
                 }
-                Log.d("@@@@@", ll.size() + "");
-                if (ll.size() > 0) {
-                    dlat = ll.get(0).getLatitude() + "";
-                    dlon = ll.get(0).getLongitude() + "";
-                    ed.putString("lat", ll.get(0).getLatitude() + "");
-                    ed.putString("lon", ll.get(0).getLongitude() + "");
-                    ed.commit();
-                } else {
-                    AlertDialog.Builder builder;
-                    builder = new AlertDialog.Builder(this);
-
-                    //Setting message manually and performing action on button click
-                    builder.setMessage("Destination latlang not found.please try once again.")
-                            .setCancelable(false)
-                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-
-                                    dialog.dismiss();
-                                }
-                            });
-
-                    //Creating dialog box
-                    AlertDialog alert = builder.create();
-                    //Setting the title manually
-                    alert.setTitle("Destination Not Found");
-                    alert.show();
-                }
-                // Toast.makeText(this, a.getLatitude()+a.getLongitude()+"", Toast.LENGTH_SHORT).show();
-
-            } catch (IOException e) {
-                // handle the exception
             }
-            // Create a new FeatureCollection and add a new Feature to it using selectedCarmenFeature above.
-            // Then retrieve and update the source designated for showing a selected location's symbol layer icon
-
-            if (mapboxMap != null) {
-                Style style = mapboxMap.getStyle();
-                if (style != null) {
-                    GeoJsonSource source = style.getSourceAs(geojsonSourceLayerId);
-                    if (source != null) {
-                        source.setGeoJson(FeatureCollection.fromFeatures(
-                                new Feature[] {Feature.fromJson(selectedCarmenFeature.toJson())}));
-                    }
-
-                    // Move map camera to the selected location
-                    mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(
-                            new CameraPosition.Builder()
-                                    .target(new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
-                                            ((Point) selectedCarmenFeature.geometry()).longitude()))
-                                    .zoom(14)
-                                    .build()), 4000);
-                }
-            }
+        }catch (Exception e)
+        {
+            Toast.makeText(this, "Make Sure GPS is ON", Toast.LENGTH_SHORT).show();
         }
     }
     private void datePicker() {
